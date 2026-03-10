@@ -1,46 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
-// ─── Price Database ──────────────────────────────────────────────────────────
-const PRICES = {
-  // ── Woolworths cheapest ──
-  "Full Cream Milk 2L":       { woolworths: 2.49, coles: 3.30, aldi: 2.99 },
-  "Skim Milk 2L":             { woolworths: 2.49, coles: 3.30, aldi: 2.89 },
-  "Free Range Eggs 12pk":     { woolworths: 5.20, coles: 6.20, aldi: 5.49 },
-  "Cage Eggs 12pk":           { woolworths: 3.50, coles: 4.20, aldi: 3.99 },
-  "Olive Oil 750ml":          { woolworths: 5.99, coles: 8.50, aldi: 6.99 },
-  "Rolled Oats 1kg":          { woolworths: 2.50, coles: 3.80, aldi: 2.99 },
-  "Instant Coffee 200g":      { woolworths: 5.50, coles: 7.50, aldi: 5.99 },
-  "Cornflakes 500g":          { woolworths: 3.49, coles: 5.20, aldi: 3.99 },
-  "Dishwashing Liquid 500ml": { woolworths: 2.00, coles: 3.80, aldi: 2.99 },
-  "Tomatoes 500g":            { woolworths: 2.49, coles: 3.80, aldi: 3.19 },
-  // ── Coles cheapest ──
-  "Chicken Breast 1kg":       { woolworths: 11.00, coles: 7.99, aldi: 8.99 },
-  "Beef Mince 500g":          { woolworths: 8.00, coles: 5.99, aldi: 6.49 },
-  "Baby Spinach 120g":        { woolworths: 3.50, coles: 2.50, aldi: 2.79 },
-  "Toilet Paper 12pk":        { woolworths: 10.00, coles: 6.99, aldi: 7.99 },
-  "Cheddar Cheese 500g":      { woolworths: 7.50, coles: 5.49, aldi: 5.99 },
-  "Orange Juice 2L":          { woolworths: 5.50, coles: 3.49, aldi: 4.29 },
-  "Tea Bags 100pk":           { woolworths: 5.00, coles: 3.49, aldi: 3.99 },
-  "Baked Beans 420g":         { woolworths: 2.00, coles: 0.99, aldi: 1.29 },
-  "Strawberry Jam 500g":      { woolworths: 4.00, coles: 2.49, aldi: 2.99 },
-  "Frozen Peas 1kg":          { woolworths: 4.50, coles: 2.99, aldi: 3.49 },
-  // ── Aldi cheapest ──
-  "White Bread":              { woolworths: 3.00, coles: 2.80, aldi: 1.99 },
-  "Sourdough Loaf":           { woolworths: 5.50, coles: 5.00, aldi: 3.99 },
-  "Pasta 500g":               { woolworths: 2.50, coles: 2.20, aldi: 1.49 },
-  "Canned Tomatoes 400g":     { woolworths: 1.80, coles: 1.60, aldi: 1.19 },
-  "Basmati Rice 1kg":         { woolworths: 3.50, coles: 3.20, aldi: 2.49 },
-  "Laundry Powder 2kg":       { woolworths: 12.00, coles: 11.50, aldi: 8.99 },
-  "Apples 1kg":               { woolworths: 4.50, coles: 4.20, aldi: 3.49 },
-  "Bananas 1kg":              { woolworths: 3.50, coles: 3.20, aldi: 2.89 },
-  "Carrots 1kg":              { woolworths: 2.50, coles: 2.30, aldi: 1.99 },
-  "Broccoli Each":            { woolworths: 3.50, coles: 3.20, aldi: 2.79 },
-  "Greek Yoghurt 1kg":        { woolworths: 5.00, coles: 4.80, aldi: 3.99 },
-  "Butter 250g":              { woolworths: 4.50, coles: 4.20, aldi: 3.49 },
-  "Coffee Beans 500g":        { woolworths: 12.00, coles: 11.50, aldi: 8.99 },
-  "Tuna Can 95g":             { woolworths: 2.50, coles: 2.30, aldi: 1.79 },
-  "Peanut Butter 500g":       { woolworths: 5.00, coles: 4.80, aldi: 3.79 },
-};
+const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const STORE_CONFIG = {
   woolworths: { label: "Woolworths", color: "#00c6ff", bg: "rgba(0,198,255,0.12)",   pill: "#00c6ff",  emoji: "🟢" },
@@ -48,15 +8,14 @@ const STORE_CONFIG = {
   aldi:       { label: "Aldi",       color: "#818cf8", bg: "rgba(129,140,248,0.12)", pill: "#818cf8",  emoji: "🔵" },
 };
 
-function getCheapest(name) {
-  const p = PRICES[name];
-  if (!p) return null;
-  return Object.entries(p).reduce((a, b) => a[1] <= b[1] ? a : b)[0];
+function getCheapest(prices) {
+  if (!prices) return null;
+  return Object.entries(prices).reduce((a, b) => a[1] <= b[1] ? a : b)[0];
 }
 
 function totalSaved(items) {
   return items.reduce((sum, item) => {
-    const p = PRICES[item.name];
+    const p = item.prices;
     if (!p) return sum;
     const vals = Object.values(p);
     return sum + (Math.max(...vals) - Math.min(...vals)) * item.qty;
@@ -68,15 +27,64 @@ let uid = 1;
 export default function App() {
   const [view, setView] = useState("list");
   const [items, setItems] = useState([
-    { id: uid++, name: "Full Cream Milk 2L",   qty: 2 },
-    { id: uid++, name: "Free Range Eggs 12pk", qty: 1 },
-    { id: uid++, name: "Chicken Breast 1kg",   qty: 1 },
-    { id: uid++, name: "Pasta 500g",           qty: 2 },
-    { id: uid++, name: "Canned Tomatoes 400g", qty: 3 },
-    { id: uid++, name: "Olive Oil 750ml",      qty: 1 },
-    { id: uid++, name: "Baby Spinach 120g",    qty: 1 },
-    { id: uid++, name: "Toilet Paper 12pk",    qty: 1 },
+    { id: uid++, name: "Full Cream Milk 2L",   qty: 2, prices: null },
+    { id: uid++, name: "Free Range Eggs 12pk", qty: 1, prices: null },
+    { id: uid++, name: "Chicken Breast 1kg",   qty: 1, prices: null },
+    { id: uid++, name: "Pasta 500g",           qty: 2, prices: null },
+    { id: uid++, name: "Canned Tomatoes 400g", qty: 3, prices: null },
+    { id: uid++, name: "Olive Oil 750ml",      qty: 1, prices: null },
+    { id: uid++, name: "Baby Spinach 120g",    qty: 1, prices: null },
+    { id: uid++, name: "Toilet Paper 12pk",    qty: 1, prices: null },
   ]);
+  const [loadingPrices, setLoadingPrices] = useState(false);
+
+  // Fetch prices from Flask API whenever items change
+  const fetchPrices = useCallback(async (currentItems) => {
+    const names = currentItems.map(i => i.name);
+    if (names.length === 0) return;
+    setLoadingPrices(true);
+    try {
+      const res = await fetch(`${API}/api/prices`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: names }),
+      });
+      const data = await res.json();
+      setItems(prev => prev.map(item => ({
+        ...item,
+        prices: data[item.name] || null,
+      })));
+    } catch (err) {
+      console.error("Failed to fetch prices:", err);
+    } finally {
+      setLoadingPrices(false);
+    }
+  }, []);
+
+  // Fetch prices on first load
+  useEffect(() => {
+    fetchPrices(items);
+  }, []);
+
+  const addItem = (name, existingItems) => {
+    let newItems;
+    const existing = existingItems.find(i => i.name === name);
+    if (existing) {
+      newItems = existingItems.map(i => i.id === existing.id ? { ...i, qty: i.qty + 1 } : i);
+    } else {
+      newItems = [...existingItems, { id: uid++, name, qty: 1, prices: null }];
+      // Fetch price for new item
+      fetch(`${API}/api/prices`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: [name] }),
+      }).then(r => r.json()).then(data => {
+        setItems(prev => prev.map(i => i.name === name ? { ...i, prices: data[name] || null } : i));
+      }).catch(console.error);
+    }
+    setItems(newItems);
+    return newItems;
+  };
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#040d1a", minHeight: "100vh", maxWidth: 430, margin: "0 auto", display: "flex", flexDirection: "column" }}>
@@ -86,54 +94,40 @@ export default function App() {
         ::-webkit-scrollbar { width: 0; }
         input:focus { outline: none; }
         button { font-family: 'DM Sans', sans-serif; }
-
-        .sb-bg {
-          position: fixed; inset: 0; pointer-events: none; z-index: 0;
-        }
+        .sb-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
         .sb-grid {
           position: absolute; inset: 0;
-          background-image:
-            linear-gradient(rgba(0,198,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,198,255,0.03) 1px, transparent 1px);
+          background-image: linear-gradient(rgba(0,198,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,198,255,0.03) 1px, transparent 1px);
           background-size: 40px 40px;
         }
         .sb-glow {
-          position: absolute;
-          width: 400px; height: 300px;
+          position: absolute; width: 400px; height: 300px;
           background: radial-gradient(circle, rgba(0,114,255,0.2), transparent 70%);
-          top: -80px; right: -80px;
-          border-radius: 50%;
-          filter: blur(60px);
+          top: -80px; right: -80px; border-radius: 50%; filter: blur(60px);
         }
         .sb-content { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; }
-
         .glass {
-          background: rgba(255,255,255,0.05);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 12px;
-          box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+          background: rgba(255,255,255,0.05); backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.3);
         }
         .item-card {
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 12px;
-          transition: border-color 0.15s, background 0.15s;
+          background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 12px; transition: border-color 0.15s, background 0.15s;
         }
         .item-card:hover { background: rgba(0,198,255,0.05); border-color: rgba(0,198,255,0.2); }
-
         @keyframes slideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
         .item-row { animation: slideUp 0.2s ease both; }
-
         @keyframes glow { 0%,100% { box-shadow: 0 4px 20px rgba(0,114,255,0.4); } 50% { box-shadow: 0 4px 32px rgba(0,198,255,0.6); } }
         .cta-btn { animation: glow 2.5s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner { animation: spin 0.8s linear infinite; }
       `}</style>
 
       <div className="sb-bg"><div className="sb-grid" /><div className="sb-glow" /></div>
       <div className="sb-content">
         {view === "list"
-          ? <ListView items={items} setItems={setItems} goCompare={() => setView("compare")} />
+          ? <ListView items={items} setItems={setItems} addItem={addItem} loadingPrices={loadingPrices} goCompare={() => setView("compare")} />
           : <CompareView items={items} goBack={() => setView("list")} />
         }
       </div>
@@ -141,30 +135,36 @@ export default function App() {
   );
 }
 
-function ListView({ items, setItems, goCompare }) {
+function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
   const inputRef = useRef();
 
-  const suggestions = query.length > 0
-    ? Object.keys(PRICES).filter(n => n.toLowerCase().includes(query.toLowerCase()) && !items.find(i => i.name === n)).slice(0, 6)
-    : [];
+  // Search via API
+  useEffect(() => {
+    if (query.length < 1) { setSuggestions([]); return; }
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`${API}/api/search?q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        setSuggestions(data.filter(s => !items.find(i => i.name === s)).slice(0, 6));
+      } catch { setSuggestions([]); }
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [query, items]);
 
-  const addItem = (name) => {
-    const existing = items.find(i => i.name === name);
-    if (existing) {
-      setItems(items.map(i => i.id === existing.id ? { ...i, qty: i.qty + 1 } : i));
-    } else {
-      setItems([...items, { id: uid++, name, qty: 1 }]);
-    }
+  const handleAdd = (name) => {
+    addItem(name, items);
     setQuery("");
+    setSuggestions([]);
     inputRef.current?.focus();
   };
 
-  const remove = (id) => setItems(items.filter(i => i.id !== id));
-  const changeQty = (id, d) => setItems(items.map(i => i.id === id ? { ...i, qty: Math.max(1, i.qty + d) } : i));
+  const remove = (id) => setItems(prev => prev.filter(i => i.id !== id));
+  const changeQty = (id, d) => setItems(prev => prev.map(i => i.id === id ? { ...i, qty: Math.max(1, i.qty + d) } : i));
   const savings = totalSaved(items);
-  const knownCount = items.filter(i => PRICES[i.name]).length;
+  const knownCount = items.filter(i => i.prices).length;
 
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
@@ -176,6 +176,9 @@ function ListView({ items, setItems, goCompare }) {
             <div style={{ color: "#00c6ff", fontSize: 18, fontWeight: 800, fontFamily: "'Syne', sans-serif", lineHeight: 1 }}>SmartBasket</div>
             <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 10, letterSpacing: 2, textTransform: "uppercase" }}>by Natts Digital</div>
           </div>
+          {loadingPrices && (
+            <div style={{ marginLeft: "auto", width: 18, height: 18, border: "2px solid rgba(0,198,255,0.2)", borderTopColor: "#00c6ff", borderRadius: "50%" }} className="spinner" />
+          )}
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
           <div>
@@ -202,34 +205,29 @@ function ListView({ items, setItems, goCompare }) {
               onChange={e => setQuery(e.target.value)}
               onFocus={() => setFocused(true)}
               onBlur={() => setTimeout(() => setFocused(false), 150)}
-              onKeyDown={e => e.key === "Enter" && query.trim() && (suggestions[0] ? addItem(suggestions[0]) : addItem(query.trim()))}
+              onKeyDown={e => e.key === "Enter" && query.trim() && (suggestions[0] ? handleAdd(suggestions[0]) : handleAdd(query.trim()))}
               placeholder="Search or add item…"
               style={{ flex: 1, background: "none", border: "none", color: "#fff", fontSize: 14, fontWeight: 500 }}
             />
-            {query && <button onClick={() => setQuery("")} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.3)", cursor: "pointer", fontSize: 18 }}>×</button>}
+            {query && <button onClick={() => { setQuery(""); setSuggestions([]); }} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.3)", cursor: "pointer", fontSize: 18 }}>×</button>}
           </div>
           {suggestions.length > 0 && (
             <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, background: "#0a1628", border: "1px solid rgba(0,198,255,0.15)", borderRadius: 12, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.5)", zIndex: 50 }}>
-              {suggestions.map((s, i) => {
-                const cheap = getCheapest(s);
-                const cfg = cheap ? STORE_CONFIG[cheap] : null;
-                return (
-                  <button key={s} onMouseDown={() => addItem(s)}
-                    style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 16px", background: "none", border: "none", cursor: "pointer", borderBottom: i < suggestions.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none", color: "#fff", textAlign: "left" }}
-                    onMouseEnter={e => e.currentTarget.style.background = "rgba(0,198,255,0.07)"}
-                    onMouseLeave={e => e.currentTarget.style.background = "none"}
-                  >
-                    <span style={{ fontSize: 13, fontWeight: 500 }}>{s}</span>
-                    {cfg && <span style={{ fontSize: 11, color: cfg.color, fontWeight: 700, background: cfg.bg, padding: "2px 8px", borderRadius: 6 }}>Best: ${PRICES[s][cheap].toFixed(2)}</span>}
-                  </button>
-                );
-              })}
+              {suggestions.map((s, i) => (
+                <button key={s} onMouseDown={() => handleAdd(s)}
+                  style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 16px", background: "none", border: "none", cursor: "pointer", borderBottom: i < suggestions.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none", color: "#fff", textAlign: "left" }}
+                  onMouseEnter={e => e.currentTarget.style.background = "rgba(0,198,255,0.07)"}
+                  onMouseLeave={e => e.currentTarget.style.background = "none"}
+                >
+                  <span style={{ fontSize: 13, fontWeight: 500 }}>{s}</span>
+                </button>
+              ))}
             </div>
           )}
         </div>
       </div>
 
-      {/* List */}
+      {/* Items */}
       <div style={{ flex: 1, padding: "0 16px", overflowY: "auto" }}>
         {items.length === 0 ? (
           <div style={{ textAlign: "center", padding: "60px 20px" }}>
@@ -238,17 +236,16 @@ function ListView({ items, setItems, goCompare }) {
             <div style={{ fontSize: 13, marginTop: 6, color: "rgba(255,255,255,0.2)" }}>Search above to add items</div>
           </div>
         ) : items.map((item, idx) => {
-          const p = PRICES[item.name];
-          const cheap = getCheapest(item.name);
+          const cheap = getCheapest(item.prices);
           const cfg = cheap ? STORE_CONFIG[cheap] : null;
           return (
             <div key={item.id} className="item-row item-card" style={{ animationDelay: `${idx * 0.04}s`, padding: "13px 14px", marginBottom: 8, display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: cfg?.pill || "rgba(255,255,255,0.15)", flexShrink: 0, boxShadow: cfg ? `0 0 6px ${cfg.pill}88` : "none" }} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.88)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.name}</div>
-                {cfg && p
-                  ? <div style={{ fontSize: 11, color: cfg.color, fontWeight: 600, marginTop: 2 }}>{cfg.emoji} {cfg.label} · <span style={{ fontFamily: "'DM Mono', monospace" }}>${p[cheap].toFixed(2)}</span> ea</div>
-                  : <div style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", marginTop: 2 }}>No price data</div>
+                {cfg && item.prices
+                  ? <div style={{ fontSize: 11, color: cfg.color, fontWeight: 600, marginTop: 2 }}>{cfg.emoji} {cfg.label} · <span style={{ fontFamily: "'DM Mono', monospace" }}>${item.prices[cheap].toFixed(2)}</span> ea</div>
+                  : <div style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", marginTop: 2 }}>{loadingPrices ? "Fetching price…" : "No price data"}</div>
                 }
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -268,7 +265,7 @@ function ListView({ items, setItems, goCompare }) {
         <div style={{ padding: "16px 16px 32px" }}>
           <button className="cta-btn" onClick={goCompare} style={{ width: "100%", padding: "15px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #0072ff, #00c6ff)", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
             <span>Compare Prices</span>
-            <span style={{ background: "rgba(255,255,255,0.2)", borderRadius: 8, padding: "3px 10px", fontSize: 13, fontWeight: 800, fontFamily: "'DM Mono', monospace" }}>Save ${savings.toFixed(2)}</span>
+            <span style={{ background: "rgba(255,255,255,0.2)", borderRadius: 8, padding: "3px 10px", fontSize: 13, fontWeight: 800, fontFamily: "'DM Mono', monospace" }}>Save ${totalSaved(items).toFixed(2)}</span>
             <span>→</span>
           </button>
         </div>
@@ -280,14 +277,14 @@ function ListView({ items, setItems, goCompare }) {
 function CompareView({ items, goBack }) {
   const groups = { woolworths: [], coles: [], aldi: [], unknown: [] };
   items.forEach(item => {
-    const cheap = getCheapest(item.name);
+    const cheap = getCheapest(item.prices);
     (groups[cheap] || groups.unknown).push(item);
   });
 
   const storeOrder = ["woolworths", "coles", "aldi"].sort((a, b) => groups[b].length - groups[a].length);
   const storeTotals = {};
   storeOrder.forEach(store => {
-    storeTotals[store] = groups[store].reduce((sum, item) => sum + (PRICES[item.name]?.[store] || 0) * item.qty, 0);
+    storeTotals[store] = groups[store].reduce((sum, item) => sum + (item.prices?.[store] || 0) * item.qty, 0);
   });
 
   const grandTotal = Object.values(storeTotals).reduce((a, b) => a + b, 0);
@@ -295,7 +292,6 @@ function CompareView({ items, goBack }) {
 
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-      {/* Header */}
       <div style={{ padding: "28px 20px 16px" }}>
         <button onClick={goBack} style={{ background: "none", border: "none", color: "rgba(0,198,255,0.65)", cursor: "pointer", fontSize: 13, fontWeight: 600, marginBottom: 16, padding: 0, display: "flex", alignItems: "center", gap: 4 }}>← Back to list</button>
         <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}>Smart Price Split</div>
@@ -312,7 +308,6 @@ function CompareView({ items, goBack }) {
         </div>
       </div>
 
-      {/* Store bars */}
       <div style={{ padding: "0 20px 16px", display: "flex", gap: 8 }}>
         {storeOrder.map(store => {
           const cfg = STORE_CONFIG[store];
@@ -329,7 +324,6 @@ function CompareView({ items, goBack }) {
         })}
       </div>
 
-      {/* Store groups */}
       <div style={{ flex: 1, padding: "0 16px 24px", overflowY: "auto" }}>
         {storeOrder.map((store, storeIdx) => {
           const cfg = STORE_CONFIG[store];
@@ -347,12 +341,10 @@ function CompareView({ items, goBack }) {
                 </div>
                 <div style={{ fontSize: 17, fontWeight: 800, color: cfg.color, fontFamily: "'DM Mono', monospace" }}>${storeTotals[store].toFixed(2)}</div>
               </div>
-
               <div className="glass" style={{ overflow: "hidden" }}>
                 {storeItems.map((item, idx) => {
-                  const p = PRICES[item.name];
-                  const storePrice = p?.[store];
-                  const others = p ? Object.entries(p).filter(([s]) => s !== store).sort((a, b) => a[1] - b[1]) : [];
+                  const storePrice = item.prices?.[store];
+                  const others = item.prices ? Object.entries(item.prices).filter(([s]) => s !== store).sort((a, b) => a[1] - b[1]) : [];
                   return (
                     <div key={item.id} style={{ padding: "11px 14px", borderBottom: idx < storeItems.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
                       <div style={{ flex: 1, minWidth: 0 }}>
@@ -383,7 +375,6 @@ function CompareView({ items, goBack }) {
           </div>
         )}
 
-        {/* Summary */}
         <div className="glass" style={{ padding: 16, borderColor: "rgba(0,198,255,0.12)" }}>
           <div style={{ color: "rgba(0,198,255,0.55)", fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 12, textTransform: "uppercase" }}>Summary</div>
           {storeOrder.map(store => groups[store].length > 0 && (
