@@ -28,5 +28,12 @@ def index():
         return redirect('/app')
     return redirect('/login')
 
+# ── Main app redirect (after login) ──────────────────────────────────────────
+@app.route("/app")
+def main_app():
+    if 'username' not in session:
+        return redirect('/login')
+    return redirect("https://smart-basket-63ww.onrender.com")
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
