@@ -23,21 +23,24 @@ def hash_password(pw):
     return hashlib.sha256(pw.encode()).hexdigest()
 
 def send_email(to, subject, body):
-    """Send a plain-text email via SMTP."""
+    """Send a plain-text email via SMTP. Never raises — logs errors only."""
     import smtplib
     from email.mime.text import MIMEText
+    if not FLASK_MAIL_USERNAME or not FLASK_MAIL_PASSWORD:
+        print("Email not configured — skipping.")
+        return False
     msg = MIMEText(body)
     msg['Subject'] = subject
     msg['From']    = MAIL_FROM
     msg['To']      = to
     try:
-        with smtplib.SMTP(FLASK_MAIL_SERVER, FLASK_MAIL_PORT) as s:
+        with smtplib.SMTP(FLASK_MAIL_SERVER, FLASK_MAIL_PORT, timeout=10) as s:
             s.starttls()
             s.login(FLASK_MAIL_USERNAME, FLASK_MAIL_PASSWORD)
             s.sendmail(MAIL_FROM, [to], msg.as_string())
         return True
     except Exception as e:
-        print(f"Email error: {e}")
+        print(f"Email error (non-fatal): {e}")
         return False
 
 # ── Login required decorator ──────────────────────────────────────────────────
