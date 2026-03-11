@@ -1,16 +1,32 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect, session
 from flask_cors import CORS
-from routes.prices import prices_bp
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-in-production")
 CORS(app)
-app.register_blueprint(prices_bp)
 
-# ── Health check endpoint ──────────────────────────────────────────────────
-# UptimeRobot pings this every 5 minutes to keep Render from sleeping
+# ── Register blueprints ───────────────────────────────────────────────────────
+from routes.prices import prices_bp
+from routes.auth import auth_bp
+
+app.register_blueprint(prices_bp)
+app.register_blueprint(auth_bp)
+
+# ── Health check ──────────────────────────────────────────────────────────────
 @app.route("/health")
 def health():
     return jsonify({"status": "ok"}), 200
+
+# ── Root redirect ─────────────────────────────────────────────────────────────
+@app.route("/")
+def index():
+    if 'username' in session:
+        return redirect('/app')
+    return redirect('/login')
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
