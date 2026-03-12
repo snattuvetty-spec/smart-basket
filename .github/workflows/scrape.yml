@@ -1,0 +1,4 @@
+smart-basket/
+  .github/
+    workflows/
+      scrape.yml    ← this needs to exist in GitHub
