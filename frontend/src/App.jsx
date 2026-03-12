@@ -173,7 +173,7 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
           <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg, #0072ff, #00c6ff)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, boxShadow: "0 4px 14px rgba(0,114,255,0.4)" }}>🛒</div>
           <div>
-            <div style={{ color: "#00c6ff", fontSize: 18, fontWeight: 800, fontFamily: "'Syne', sans-serif", lineHeight: 1 }}>SmartBasket</div>
+            <div style={{ color: "#00c6ff", fontSize: 18, fontWeight: 800, fontFamily: "'Syne', sans-serif", lineHeight: 1 }}>SmartPicks</div>
             <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 10, letterSpacing: 2, textTransform: "uppercase" }}>by Natts Digital</div>
           </div>
           {loadingPrices && (
