@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import SpecialsPage from "./SpecialsPage";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -25,7 +26,7 @@ function totalSaved(items) {
 let uid = 1;
 
 export default function App() {
-  const [view, setView] = useState("list");
+  const [tab, setTab] = useState("specials");
   const [items, setItems] = useState([
     { id: uid++, name: "Full Cream Milk 2L",   qty: 2, prices: null },
     { id: uid++, name: "Free Range Eggs 12pk", qty: 1, prices: null },
@@ -38,7 +39,6 @@ export default function App() {
   ]);
   const [loadingPrices, setLoadingPrices] = useState(false);
 
-  // Fetch prices from Flask API whenever items change
   const fetchPrices = useCallback(async (currentItems) => {
     const names = currentItems.map(i => i.name);
     if (names.length === 0) return;
@@ -61,10 +61,7 @@ export default function App() {
     }
   }, []);
 
-  // Fetch prices on first load
-  useEffect(() => {
-    fetchPrices(items);
-  }, []);
+  useEffect(() => { fetchPrices(items); }, []);
 
   const addItem = (name, existingItems) => {
     let newItems;
@@ -73,7 +70,6 @@ export default function App() {
       newItems = existingItems.map(i => i.id === existing.id ? { ...i, qty: i.qty + 1 } : i);
     } else {
       newItems = [...existingItems, { id: uid++, name, qty: 1, prices: null }];
-      // Fetch price for new item
       fetch(`${API}/api/prices`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -86,6 +82,11 @@ export default function App() {
     return newItems;
   };
 
+  const handleAddFromSpecials = (name) => {
+    addItem(name, items);
+    setTab("list");
+  };
+
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#040d1a", minHeight: "100vh", maxWidth: 430, margin: "0 auto", display: "flex", flexDirection: "column" }}>
       <style>{`
@@ -95,26 +96,11 @@ export default function App() {
         input:focus { outline: none; }
         button { font-family: 'DM Sans', sans-serif; }
         .sb-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
-        .sb-grid {
-          position: absolute; inset: 0;
-          background-image: linear-gradient(rgba(0,198,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,198,255,0.03) 1px, transparent 1px);
-          background-size: 40px 40px;
-        }
-        .sb-glow {
-          position: absolute; width: 400px; height: 300px;
-          background: radial-gradient(circle, rgba(0,114,255,0.2), transparent 70%);
-          top: -80px; right: -80px; border-radius: 50%; filter: blur(60px);
-        }
-        .sb-content { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; }
-        .glass {
-          background: rgba(255,255,255,0.05); backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.3);
-        }
-        .item-card {
-          background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 12px; transition: border-color 0.15s, background 0.15s;
-        }
+        .sb-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,198,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,198,255,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+        .sb-glow { position: absolute; width: 400px; height: 300px; background: radial-gradient(circle, rgba(0,114,255,0.2), transparent 70%); top: -80px; right: -80px; border-radius: 50%; filter: blur(60px); }
+        .sb-content { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.3); }
+        .item-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; transition: border-color 0.15s, background 0.15s; }
         .item-card:hover { background: rgba(0,198,255,0.05); border-color: rgba(0,198,255,0.2); }
         @keyframes slideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
         .item-row { animation: slideUp 0.2s ease both; }
@@ -122,15 +108,45 @@ export default function App() {
         .cta-btn { animation: glow 2.5s ease-in-out infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .spinner { animation: spin 0.8s linear infinite; }
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; background: rgba(4,13,26,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.07); display: flex; z-index: 100; }
+        .nav-btn { flex: 1; padding: 12px 4px 16px; display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; transition: all 0.15s; }
+        .nav-btn .nav-icon { font-size: 20px; transition: transform 0.15s; }
+        .nav-btn .nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.28); font-family: 'DM Sans', sans-serif; transition: color 0.15s; }
+        .nav-btn.active .nav-label { color: #00c6ff; }
+        .nav-btn.active .nav-icon { transform: scale(1.15); }
       `}</style>
 
       <div className="sb-bg"><div className="sb-grid" /><div className="sb-glow" /></div>
-      <div className="sb-content">
-        {view === "list"
-          ? <ListView items={items} setItems={setItems} addItem={addItem} loadingPrices={loadingPrices} goCompare={() => setView("compare")} />
-          : <CompareView items={items} goBack={() => setView("list")} />
-        }
+
+      <div style={{ position: "relative", zIndex: 1, padding: "20px 20px 0", display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+        <div style={{ width: 34, height: 34, borderRadius: 10, background: "linear-gradient(135deg, #0072ff, #00c6ff)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 17, boxShadow: "0 4px 14px rgba(0,114,255,0.4)" }}>🛒</div>
+        <div>
+          <div style={{ color: "#00c6ff", fontSize: 17, fontWeight: 800, fontFamily: "'Syne', sans-serif", lineHeight: 1 }}>SmartPicks</div>
+          <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 9, letterSpacing: 2, textTransform: "uppercase" }}>by Natts Digital</div>
+        </div>
+        {loadingPrices && <div style={{ marginLeft: "auto", width: 16, height: 16, border: "2px solid rgba(0,198,255,0.2)", borderTopColor: "#00c6ff", borderRadius: "50%" }} className="spinner" />}
       </div>
+
+      <div className="sb-content" style={{ paddingBottom: 68 }}>
+        {tab === "specials" && <SpecialsPage onAddToList={handleAddFromSpecials} />}
+        {tab === "list" && <ListView items={items} setItems={setItems} addItem={addItem} loadingPrices={loadingPrices} goCompare={() => setTab("compare")} />}
+        {tab === "compare" && <CompareView items={items} goBack={() => setTab("list")} />}
+      </div>
+
+      <nav className="bottom-nav">
+        <button className={`nav-btn ${tab === "specials" ? "active" : ""}`} onClick={() => setTab("specials")}>
+          <span className="nav-icon">🏷️</span>
+          <span className="nav-label">SPECIALS</span>
+        </button>
+        <button className={`nav-btn ${tab === "list" ? "active" : ""}`} onClick={() => setTab("list")}>
+          <span className="nav-icon">📋</span>
+          <span className="nav-label">MY LIST{items.length > 0 ? ` (${items.length})` : ""}</span>
+        </button>
+        <button className={`nav-btn ${tab === "compare" ? "active" : ""}`} onClick={() => setTab("compare")}>
+          <span className="nav-icon">⚖️</span>
+          <span className="nav-label">COMPARE</span>
+        </button>
+      </nav>
     </div>
   );
 }
@@ -141,7 +157,6 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
   const [suggestions, setSuggestions] = useState([]);
   const inputRef = useRef();
 
-  // Search via API
   useEffect(() => {
     if (query.length < 1) { setSuggestions([]); return; }
     const timer = setTimeout(async () => {
@@ -168,18 +183,7 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
 
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-      {/* Header */}
-      <div style={{ padding: "28px 20px 16px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg, #0072ff, #00c6ff)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, boxShadow: "0 4px 14px rgba(0,114,255,0.4)" }}>🛒</div>
-          <div>
-            <div style={{ color: "#00c6ff", fontSize: 18, fontWeight: 800, fontFamily: "'Syne', sans-serif", lineHeight: 1 }}>SmartPicks</div>
-            <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 10, letterSpacing: 2, textTransform: "uppercase" }}>by Natts Digital</div>
-          </div>
-          {loadingPrices && (
-            <div style={{ marginLeft: "auto", width: 18, height: 18, border: "2px solid rgba(0,198,255,0.2)", borderTopColor: "#00c6ff", borderRadius: "50%" }} className="spinner" />
-          )}
-        </div>
+      <div style={{ padding: "16px 20px 16px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
           <div>
             <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", marginBottom: 4 }}>Shopping List</div>
@@ -194,31 +198,17 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
         </div>
       </div>
 
-      {/* Search */}
       <div style={{ padding: "0 20px 16px" }}>
         <div style={{ position: "relative" }}>
           <div className="glass" style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 14px", borderColor: focused ? "rgba(0,198,255,0.35)" : "rgba(255,255,255,0.08)", transition: "border-color 0.2s" }}>
             <span style={{ color: "rgba(0,198,255,0.45)", fontSize: 15 }}>🔍</span>
-            <input
-              ref={inputRef}
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setTimeout(() => setFocused(false), 150)}
-              onKeyDown={e => e.key === "Enter" && query.trim() && (suggestions[0] ? handleAdd(suggestions[0]) : handleAdd(query.trim()))}
-              placeholder="Search or add item…"
-              style={{ flex: 1, background: "none", border: "none", color: "#fff", fontSize: 14, fontWeight: 500 }}
-            />
+            <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setTimeout(() => setFocused(false), 150)} onKeyDown={e => e.key === "Enter" && query.trim() && (suggestions[0] ? handleAdd(suggestions[0]) : handleAdd(query.trim()))} placeholder="Search or add item…" style={{ flex: 1, background: "none", border: "none", color: "#fff", fontSize: 14, fontWeight: 500 }} />
             {query && <button onClick={() => { setQuery(""); setSuggestions([]); }} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.3)", cursor: "pointer", fontSize: 18 }}>×</button>}
           </div>
           {suggestions.length > 0 && (
             <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, right: 0, background: "#0a1628", border: "1px solid rgba(0,198,255,0.15)", borderRadius: 12, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.5)", zIndex: 50 }}>
               {suggestions.map((s, i) => (
-                <button key={s} onMouseDown={() => handleAdd(s)}
-                  style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "11px 16px", background: "none", border: "none", cursor: "pointer", borderBottom: i < suggestions.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none", color: "#fff", textAlign: "left" }}
-                  onMouseEnter={e => e.currentTarget.style.background = "rgba(0,198,255,0.07)"}
-                  onMouseLeave={e => e.currentTarget.style.background = "none"}
-                >
+                <button key={s} onMouseDown={() => handleAdd(s)} style={{ width: "100%", display: "flex", alignItems: "center", padding: "11px 16px", background: "none", border: "none", cursor: "pointer", borderBottom: i < suggestions.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none", color: "#fff", textAlign: "left" }} onMouseEnter={e => e.currentTarget.style.background = "rgba(0,198,255,0.07)"} onMouseLeave={e => e.currentTarget.style.background = "none"}>
                   <span style={{ fontSize: 13, fontWeight: 500 }}>{s}</span>
                 </button>
               ))}
@@ -227,13 +217,12 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
         </div>
       </div>
 
-      {/* Items */}
       <div style={{ flex: 1, padding: "0 16px", overflowY: "auto" }}>
         {items.length === 0 ? (
           <div style={{ textAlign: "center", padding: "60px 20px" }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>🛒</div>
             <div style={{ fontWeight: 600, color: "rgba(255,255,255,0.4)" }}>Your list is empty</div>
-            <div style={{ fontSize: 13, marginTop: 6, color: "rgba(255,255,255,0.2)" }}>Search above to add items</div>
+            <div style={{ fontSize: 13, marginTop: 6, color: "rgba(255,255,255,0.2)" }}>Browse Specials to add items</div>
           </div>
         ) : items.map((item, idx) => {
           const cheap = getCheapest(item.prices);
@@ -243,10 +232,7 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: cfg?.pill || "rgba(255,255,255,0.15)", flexShrink: 0, boxShadow: cfg ? `0 0 6px ${cfg.pill}88` : "none" }} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.88)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.name}</div>
-                {cfg && item.prices
-                  ? <div style={{ fontSize: 11, color: cfg.color, fontWeight: 600, marginTop: 2 }}>{cfg.emoji} {cfg.label} · <span style={{ fontFamily: "'DM Mono', monospace" }}>${item.prices[cheap].toFixed(2)}</span> ea</div>
-                  : <div style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", marginTop: 2 }}>{loadingPrices ? "Fetching price…" : "No price data"}</div>
-                }
+                {cfg && item.prices ? <div style={{ fontSize: 11, color: cfg.color, fontWeight: 600, marginTop: 2 }}>{cfg.emoji} {cfg.label} · <span style={{ fontFamily: "'DM Mono', monospace" }}>${item.prices[cheap].toFixed(2)}</span> ea</div> : <div style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", marginTop: 2 }}>{loadingPrices ? "Fetching price…" : "No price data"}</div>}
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <button onClick={() => changeQty(item.id, -1)} style={{ width: 28, height: 28, borderRadius: 7, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)", cursor: "pointer", fontSize: 15, color: "rgba(255,255,255,0.4)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>−</button>
@@ -260,9 +246,8 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
         <div style={{ height: 16 }} />
       </div>
 
-      {/* CTA */}
       {knownCount > 0 && (
-        <div style={{ padding: "16px 16px 32px" }}>
+        <div style={{ padding: "16px 16px 8px" }}>
           <button className="cta-btn" onClick={goCompare} style={{ width: "100%", padding: "15px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #0072ff, #00c6ff)", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
             <span>Compare Prices</span>
             <span style={{ background: "rgba(255,255,255,0.2)", borderRadius: 8, padding: "3px 10px", fontSize: 13, fontWeight: 800, fontFamily: "'DM Mono', monospace" }}>Save ${totalSaved(items).toFixed(2)}</span>
@@ -292,7 +277,7 @@ function CompareView({ items, goBack }) {
 
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-      <div style={{ padding: "28px 20px 16px" }}>
+      <div style={{ padding: "16px 20px 16px" }}>
         <button onClick={goBack} style={{ background: "none", border: "none", color: "rgba(0,198,255,0.65)", cursor: "pointer", fontSize: 13, fontWeight: 600, marginBottom: 16, padding: 0, display: "flex", alignItems: "center", gap: 4 }}>← Back to list</button>
         <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", marginBottom: 6 }}>Smart Price Split</div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
@@ -370,7 +355,7 @@ function CompareView({ items, goBack }) {
 
         {groups.unknown.length > 0 && (
           <div className="glass" style={{ padding: 14, marginBottom: 16 }}>
-            <div style={{ fontSize: 12, color: "#fbbf24", fontWeight: 600, marginBottom: 8 }}>⚠️ No price data for:</div>
+            <div style={{ fontSize: 12, color: "#fbbf24", fontWeight: 600, marginBottom: 8 }}>No price data for:</div>
             {groups.unknown.map(item => <div key={item.id} style={{ fontSize: 13, color: "rgba(255,255,255,0.35)", padding: "4px 0" }}>{item.name}</div>)}
           </div>
         )}
@@ -396,4 +381,3 @@ function CompareView({ items, goBack }) {
     </div>
   );
 }
-
