@@ -396,3 +396,4 @@ function CompareView({ items, goBack }) {
     </div>
   );
 }
+
