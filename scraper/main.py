@@ -6,12 +6,11 @@ import os
 import sys
 import logging
 import smtplib
-import json
 from datetime import datetime, timezone
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-# ── Logging first — before anything else ─────────────────────────────────────
+# ── Logging ───────────────────────────────────────────────────────────────────
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -22,7 +21,7 @@ logger = logging.getLogger(__name__)
 logger.info("SmartPicks Scraper starting...")
 logger.info(f"Python version: {sys.version}")
 
-# ── Config from env ───────────────────────────────────────────────────────────
+# ── Config ────────────────────────────────────────────────────────────────────
 SUPABASE_URL  = os.environ.get("SUPABASE_URL", "")
 SUPABASE_KEY  = os.environ.get("SUPABASE_KEY", "")
 ALERT_EMAIL   = os.environ.get("ALERT_EMAIL", "snattuvetty@hotmail.com")
@@ -35,12 +34,12 @@ logger.info(f"SUPABASE_KEY set: {bool(SUPABASE_KEY)}")
 logger.info(f"MAIL_USERNAME set: {bool(MAIL_USERNAME)}")
 
 if not SUPABASE_URL or not SUPABASE_KEY:
-    logger.critical("SUPABASE_URL or SUPABASE_KEY is missing! Check GitHub secrets.")
+    logger.critical("SUPABASE_URL or SUPABASE_KEY is missing!")
     sys.exit(1)
 
 from supabase import create_client
-from woolworths import scrape_all_specials as scrape_woolworths
-from coles import scrape_all_specials as scrape_coles
+from woolworths import scrape as scrape_woolworths
+from coles import scrape as scrape_coles
 
 
 def send_alert(subject, body):
@@ -82,17 +81,17 @@ def clear_old_specials(client, scraped_at):
     logger.info("Cleared old specials")
 
 
-def log_scrape_run(client, woolies_status, coles_status, total_saved):
+def log_scrape_run(client, w_total, w_blocked, w_errors, c_total, c_blocked, c_errors, total_saved):
     try:
         client.table("scrape_log").insert({
-            "scraped_at":          datetime.now(timezone.utc).isoformat(),
-            "woolworths_total":    woolies_status["total"],
-            "woolworths_blocked":  woolies_status["blocked"],
-            "woolworths_errors":   json.dumps(woolies_status["errors"]),
-            "coles_total":         coles_status["total"],
-            "coles_blocked":       coles_status["blocked"],
-            "coles_errors":        json.dumps(coles_status["errors"]),
-            "total_saved":         total_saved,
+            "scraped_at":         datetime.now(timezone.utc).isoformat(),
+            "woolworths_total":   w_total,
+            "woolworths_blocked": w_blocked,
+            "woolworths_errors":  w_errors,
+            "coles_total":        c_total,
+            "coles_blocked":      c_blocked,
+            "coles_errors":       c_errors,
+            "total_saved":        total_saved,
         }).execute()
         logger.info("Scrape run logged to Supabase")
     except Exception as e:
@@ -106,7 +105,6 @@ def main():
 
     scraped_at = datetime.now(timezone.utc).isoformat()
 
-    # ── Connect to Supabase ───────────────────────────────────────────────────
     try:
         supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
         logger.info("Connected to Supabase ✅")
@@ -117,71 +115,71 @@ def main():
 
     all_specials = []
     alert_messages = []
+    w_total = w_blocked = w_errors = 0
+    c_total = c_blocked = c_errors = 0
 
-    # ── Scrape Woolworths ─────────────────────────────────────────────────────
+    # ── Woolworths ────────────────────────────────────────────────────────────
     logger.info("Scraping Woolworths...")
     try:
-        woolies_specials, woolies_status = scrape_woolworths()
+        woolies_specials, w_blocked, w_errors = scrape_woolworths()
+        w_total = len(woolies_specials)
         all_specials.extend(woolies_specials)
-        logger.info(f"Woolworths: {woolies_status['total']} specials")
-        if woolies_status["blocked"]:
-            alert_messages.append(f"🔴 WOOLWORTHS BLOCKED\n{woolies_status['errors']}")
-        elif woolies_status["total"] == 0:
-            alert_messages.append(f"⚠️ WOOLWORTHS — Zero specials. Errors: {woolies_status['errors']}")
+        logger.info(f"Woolworths: {w_total} specials, {w_blocked} blocked, {w_errors} errors")
+        if w_blocked:
+            alert_messages.append(f"🔴 WOOLWORTHS BLOCKED ({w_blocked} pages)")
+        elif w_total == 0:
+            alert_messages.append("⚠️ WOOLWORTHS — Zero specials scraped")
     except Exception as e:
-        woolies_status = {"total": 0, "blocked": False, "errors": [str(e)]}
         logger.error(f"Woolworths crashed: {e}")
         alert_messages.append(f"🔴 WOOLWORTHS CRASHED: {e}")
 
-    # ── Scrape Coles ──────────────────────────────────────────────────────────
+    # ── Coles ─────────────────────────────────────────────────────────────────
     logger.info("Scraping Coles...")
     try:
-        coles_specials, coles_status = scrape_coles()
+        coles_specials, c_blocked, c_errors = scrape_coles()
+        c_total = len(coles_specials)
         all_specials.extend(coles_specials)
-        logger.info(f"Coles: {coles_status['total']} specials")
-        if coles_status["blocked"]:
-            alert_messages.append(f"🔴 COLES BLOCKED\n{coles_status['errors']}")
-        elif coles_status["total"] == 0:
-            alert_messages.append(f"⚠️ COLES — Zero specials. Errors: {coles_status['errors']}")
+        logger.info(f"Coles: {c_total} specials, {c_blocked} blocked, {c_errors} errors")
+        if c_blocked:
+            alert_messages.append(f"🔴 COLES BLOCKED ({c_blocked} pages)")
+        elif c_total == 0:
+            alert_messages.append("⚠️ COLES — Zero specials scraped")
     except Exception as e:
-        coles_status = {"total": 0, "blocked": False, "errors": [str(e)]}
         logger.error(f"Coles crashed: {e}")
         alert_messages.append(f"🔴 COLES CRASHED: {e}")
 
-    # ── Save to Supabase ──────────────────────────────────────────────────────
+    # ── Save ──────────────────────────────────────────────────────────────────
     total_saved = 0
     if all_specials:
         try:
             clear_old_specials(supabase, scraped_at)
             total_saved = save_to_supabase(supabase, all_specials, scraped_at)
-            logger.info(f"Total saved: {total_saved}")
+            logger.info(f"Total saved to Supabase: {total_saved}")
         except Exception as e:
             logger.error(f"Supabase save failed: {e}")
             alert_messages.append(f"🔴 SUPABASE SAVE FAILED: {e}")
     else:
         alert_messages.append("🔴 NO SPECIALS — both scrapers returned zero results.")
 
-    # ── Log run ───────────────────────────────────────────────────────────────
-    log_scrape_run(supabase, woolies_status, coles_status, total_saved)
+    log_scrape_run(supabase, w_total, w_blocked, w_errors, c_total, c_blocked, c_errors, total_saved)
 
-    # ── Send alerts ───────────────────────────────────────────────────────────
     if alert_messages:
         send_alert(
             "🚨 SmartPicks Scraper Alert",
-            f"Time: {scraped_at}\nWoolworths: {woolies_status['total']}\nColes: {coles_status['total']}\nSaved: {total_saved}\n\n"
+            f"Time: {scraped_at}\nWoolworths: {w_total}\nColes: {c_total}\nSaved: {total_saved}\n\n"
             + "\n\n".join(alert_messages)
         )
     else:
         send_alert(
             f"✅ SmartPicks — {total_saved} specials loaded",
-            f"Woolworths: {woolies_status['total']}\nColes: {coles_status['total']}\nTotal: {total_saved}\nTime: {scraped_at}"
+            f"Woolworths: {w_total}\nColes: {c_total}\nTotal: {total_saved}\nTime: {scraped_at}"
         )
 
-    if woolies_status["total"] == 0 and coles_status["total"] == 0:
+    if w_total == 0 and c_total == 0:
         logger.error("Both scrapers returned zero — exiting with error")
         sys.exit(1)
 
-    logger.info("Scraper complete ✅")
+    logger.info(f"✅ Done! Woolworths: {w_total}  Coles: {c_total}  Saved: {total_saved}")
 
 
 if __name__ == "__main__":
