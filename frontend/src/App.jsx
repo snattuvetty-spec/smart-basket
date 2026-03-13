@@ -82,13 +82,13 @@ export default function App() {
     return newItems;
   };
 
-  const handleAddFromSpecials = (name, item) => {
-    addItem(name, items);
-    if (item?.price && item?.store) {
-      setItems(prev => prev.map(i => i.name === name ? {
-        ...i,
-        prices: { [item.store]: item.price }
-      } : i));
+  const handleAddFromSpecials = (name, special) => {
+    const prices = special?.price && special?.store ? { [special.store]: special.price } : null;
+    const existing = items.find(i => i.name === name);
+    if (existing) {
+      setItems(prev => prev.map(i => i.id === existing.id ? { ...i, qty: i.qty + 1, prices: prices || i.prices } : i));
+    } else {
+      setItems(prev => [...prev, { id: uid++, name, qty: 1, prices }]);
     }
     setTab("list");
   };
@@ -252,11 +252,11 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
         <div style={{ height: 16 }} />
       </div>
 
-      {knownCount > 0 && (
+      {items.length > 0 && (
         <div style={{ padding: "16px 16px 8px" }}>
           <button className="cta-btn" onClick={goCompare} style={{ width: "100%", padding: "15px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #0072ff, #00c6ff)", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
             <span>Compare Prices</span>
-            <span style={{ background: "rgba(255,255,255,0.2)", borderRadius: 8, padding: "3px 10px", fontSize: 13, fontWeight: 800, fontFamily: "'DM Mono', monospace" }}>Save ${totalSaved(items).toFixed(2)}</span>
+            {savings > 0 && <span style={{ background: "rgba(255,255,255,0.2)", borderRadius: 8, padding: "3px 10px", fontSize: 13, fontWeight: 800, fontFamily: "'DM Mono', monospace" }}>Save ${totalSaved(items).toFixed(2)}</span>}
             <span>→</span>
           </button>
         </div>
