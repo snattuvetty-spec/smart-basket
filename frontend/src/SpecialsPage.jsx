@@ -262,7 +262,7 @@ function SpecialCard({ item, idx, onAdd }) {
 
         {/* Add to list btn */}
         {onAdd && (
-          <button className="sp-add-btn" onClick={() => onAdd(item.name)} style={{ marginTop: "auto", alignSelf: "flex-start" }}>
+          <button className="sp-add-btn" onClick={() => onAdd(item.name, item)} style={{ marginTop: "auto", alignSelf: "flex-start" }}>
             + Add to list
           </button>
         )}

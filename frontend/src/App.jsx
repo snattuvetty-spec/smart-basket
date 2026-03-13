@@ -82,8 +82,14 @@ export default function App() {
     return newItems;
   };
 
-  const handleAddFromSpecials = (name) => {
+  const handleAddFromSpecials = (name, item) => {
     addItem(name, items);
+    if (item?.price && item?.store) {
+      setItems(prev => prev.map(i => i.name === name ? {
+        ...i,
+        prices: { [item.store]: item.price }
+      } : i));
+    }
     setTab("list");
   };
 
