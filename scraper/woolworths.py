@@ -17,9 +17,13 @@ SPECIAL_GROUPS = {
     "specialsgroup.3673":  ("Everyday Low Price",   "everyday-low-price"),
     "specialsgroup.3719":  ("Autumn Price",         "autumn-price"),
     "specialsgroup.3668":  ("Buy More Save More",   "buy-more-save-more"),
+    "specialsgroup.3072":  ("Specials",             "specials"),
+    "specialsgroup.3675":  ("Save Now",             "save-now"),
+
+
 }
 
-PAGE_SIZE = 36
+PAGE_SIZE = 48
 
 
 def get_headers(referer):
