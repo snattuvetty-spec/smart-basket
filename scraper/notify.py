@@ -18,9 +18,8 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
 def send_telegram(chat_id, message):
-    """Send a Telegram message to a user."""
     if not TELEGRAM_BOT_TOKEN:
-        logger.warning("TELEGRAM_BOT_TOKEN not set — skipping notification.")
+        logger.warning("TELEGRAM_BOT_TOKEN not set — skipping.")
         return False
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     try:
@@ -29,6 +28,7 @@ def send_telegram(chat_id, message):
             "text": message,
             "parse_mode": "HTML"
         }, timeout=10)
+        logger.info(f"Telegram response: {resp.status_code} {resp.text[:100]}")
         return resp.status_code == 200
     except Exception as e:
         logger.error(f"Telegram error for chat_id {chat_id}: {e}")
@@ -36,10 +36,6 @@ def send_telegram(chat_id, message):
 
 
 def check_and_notify():
-    """
-    For each user with a Telegram chat ID and saved list items,
-    check if any items are currently on special and send an alert.
-    """
     if not TELEGRAM_BOT_TOKEN:
         logger.warning("No TELEGRAM_BOT_TOKEN — skipping notifications.")
         return 0
@@ -47,6 +43,7 @@ def check_and_notify():
     # Get all users with telegram connected
     try:
         users = supabase.table('users').select('username, name, telegram_chat_id').not_.is_('telegram_chat_id', 'null').execute().data
+        logger.info(f"Users with Telegram: {len(users)}")
     except Exception as e:
         logger.error(f"Error fetching users: {e}")
         return 0
@@ -60,30 +57,30 @@ def check_and_notify():
     for user in users:
         username = user['username']
         chat_id = user['telegram_chat_id']
-        name = user.get('name', username)
+        user_name = user.get('name', username)
 
-        # Get user's saved list items
+        # Get user's saved list items (column is 'name')
         try:
-            items = supabase.table('list_items').select('product_name').eq('username', username).execute().data
+            rows = supabase.table('list_items').select('name').eq('username', username).execute().data
+            logger.info(f"User {username} has {len(rows)} list items")
         except Exception as e:
             logger.error(f"Error fetching list for {username}: {e}")
             continue
 
-        if not items:
+        if not rows:
             continue
 
         # Check each item against current specials
         matches = []
-        for item in items:
-            product_name = item['product_name']
-            # Search specials for this product
+        for row in rows:
+            product_name = row['name']
             words = product_name.strip().split()
-            # Try with first 2-3 words for better matching
             query = ' '.join(words[:3]) if len(words) >= 3 else product_name
             try:
                 results = supabase.table('specials').select(
                     'name, store, price, was_price, saving_pct, is_half_price'
                 ).ilike('name', f'%{query}%').order('saving_pct', desc=True).limit(3).execute().data
+                logger.info(f"  '{product_name}' -> {len(results)} specials matches")
             except Exception as e:
                 logger.error(f"Error searching specials for '{product_name}': {e}")
                 continue
@@ -91,20 +88,21 @@ def check_and_notify():
             if results:
                 best = results[0]
                 matches.append({
-                    'list_name': product_name,
+                    'list_name':    product_name,
                     'special_name': best['name'],
-                    'store': best['store'].title(),
-                    'price': best['price'],
-                    'was_price': best.get('was_price'),
-                    'saving_pct': best.get('saving_pct'),
+                    'store':        best['store'].title(),
+                    'price':        best['price'],
+                    'was_price':    best.get('was_price'),
+                    'saving_pct':   best.get('saving_pct'),
                     'is_half_price': best.get('is_half_price', False),
                 })
 
         if not matches:
+            logger.info(f"No matches for {username}")
             continue
 
         # Build message
-        lines = [f"🛒 <b>SmartPicks Alert for {name}!</b>\n"]
+        lines = [f"🛒 <b>SmartPicks Alert for {user_name}!</b>\n"]
         lines.append(f"<b>{len(matches)} item{'s' if len(matches) > 1 else ''} from your list {'are' if len(matches) > 1 else 'is'} on special:</b>\n")
 
         for m in matches:
