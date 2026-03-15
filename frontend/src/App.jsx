@@ -106,20 +106,31 @@ export default function App() {
       const res = await fetch(`${API}/api/list/load`, { headers: authHeaders() });
       const data = await res.json();
       if (data.items && data.items.length > 0) {
-        const loaded = data.items.map(name => ({ id: uid++, name, qty: 1, prices: null }));
+        const loaded = data.items.map(row => ({
+          id:      uid++,
+          name:    row.name,
+          qty:     1,
+          prices:  row.store && row.price ? { [row.store]: row.price } : null,
+          special: row.price ? {
+            price:      row.price,
+            was_price:  row.was_price,
+            saving_pct: row.saving_pct,
+            store:      row.store,
+          } : null,
+        }));
         setItems(loaded);
-        // Fetch cross-store prices for all loaded items
+        // Also fetch cross-store prices from Flask
         setLoadingPrices(true);
         try {
           const priceRes = await fetch(`${API}/api/prices`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ items: data.items }),
+            body: JSON.stringify({ items: data.items.map(r => r.name) }),
           });
           const priceData = await priceRes.json();
           setItems(loaded.map(item => ({
             ...item,
-            prices: priceData[item.name] || null,
+            prices: priceData[item.name] || item.prices,
           })));
         } catch (e) {
           console.error('Price fetch failed:', e);
@@ -137,7 +148,15 @@ export default function App() {
       await fetch(`${API}/api/list/save`, {
         method: 'POST',
         headers: authHeaders(),
-        body: JSON.stringify({ items: currentItems.map(i => i.name) }),
+        body: JSON.stringify({
+          items: currentItems.map(i => ({
+            name:       i.name,
+            price:      i.special?.price || null,
+            was_price:  i.special?.was_price || null,
+            saving_pct: i.special?.saving_pct || null,
+            store:      i.special?.store || null,
+          }))
+        }),
       });
     } catch (e) {
       console.error('Save list failed:', e);
@@ -199,9 +218,9 @@ export default function App() {
     const existing = items.find(i => i.name === name);
     let newItems;
     if (existing) {
-      newItems = items.map(i => i.id === existing.id ? { ...i, qty: i.qty + 1, prices: prices || i.prices } : i);
+      newItems = items.map(i => i.id === existing.id ? { ...i, qty: i.qty + 1, prices: prices || i.prices, special: special || i.special } : i);
     } else {
-      newItems = [...items, { id: uid++, name, qty: 1, prices }];
+      newItems = [...items, { id: uid++, name, qty: 1, prices, special: special || null }];
     }
     setItems(newItems);
     saveList(newItems);
@@ -375,7 +394,13 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare, saveList
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: cfg?.pill || "rgba(255,255,255,0.15)", flexShrink: 0, boxShadow: cfg ? `0 0 6px ${cfg.pill}88` : "none" }} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.88)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.name}</div>
-                {cfg && item.prices ? <div style={{ fontSize: 11, color: cfg.color, fontWeight: 600, marginTop: 2 }}>{cfg.emoji} {cfg.label} · <span style={{ fontFamily: "'DM Mono', monospace" }}>${item.prices[cheap].toFixed(2)}</span> ea</div> : <div style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", marginTop: 2 }}>{loadingPrices ? "Fetching price…" : "No price data"}</div>}
+                {cfg && item.prices ? (
+                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2, flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 11, color: cfg.color, fontWeight: 600 }}>{cfg.emoji} {cfg.label} · <span style={{ fontFamily: "'DM Mono', monospace" }}>${item.prices[cheap].toFixed(2)}</span></span>
+                    {item.special?.was_price && <span style={{ fontSize: 10, color: "rgba(255,255,255,0.28)", textDecoration: "line-through" }}>${item.special.was_price.toFixed(2)}</span>}
+                    {item.special?.saving_pct && <span style={{ fontSize: 10, color: "#4ade80", fontWeight: 700 }}>-{Math.round(item.special.saving_pct)}%</span>}
+                  </div>
+                ) : <div style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", marginTop: 2 }}>{loadingPrices ? "Fetching price…" : "No price data"}</div>}
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                 <button onClick={() => changeQty(item.id, -1)} style={{ width: 28, height: 28, borderRadius: 7, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)", cursor: "pointer", fontSize: 15, color: "rgba(255,255,255,0.4)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700 }}>−</button>

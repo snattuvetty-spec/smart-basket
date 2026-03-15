@@ -307,10 +307,23 @@ def save_list():
         return jsonify({'error': str(e)}), 500
 
     items = request.json.get('items', [])
+    # items is now a list of objects: {name, price, was_price, saving_pct, store}
     try:
         supabase.table('list_items').delete().eq('username', username).execute()
         if items:
-            rows = [{'username': username, 'name': item} for item in items]
+            rows = []
+            for item in items:
+                if isinstance(item, str):
+                    rows.append({'username': username, 'name': item})
+                else:
+                    rows.append({
+                        'username':   username,
+                        'name':       item.get('name', ''),
+                        'price':      item.get('price'),
+                        'was_price':  item.get('was_price'),
+                        'saving_pct': item.get('saving_pct'),
+                        'store':      item.get('store'),
+                    })
             supabase.table('list_items').insert(rows).execute()
         return jsonify({'ok': True, 'saved': len(items)})
     except Exception as e:
@@ -327,8 +340,8 @@ def load_list():
         if not result.data:
             return jsonify({'items': []})
         username = result.data[0]['username']
-        rows = supabase.table('list_items').select('name').eq('username', username).execute().data
-        return jsonify({'items': [r['name'] for r in rows]})
+        rows = supabase.table('list_items').select('name, price, was_price, saving_pct, store').eq('username', username).execute().data
+        return jsonify({'items': rows})
     except Exception as e:
         return jsonify({'items': [], 'error': str(e)})
 
