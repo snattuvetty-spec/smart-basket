@@ -18,6 +18,7 @@ MAIL_PORT     = int(os.environ.get("MAIL_PORT", 587))
 MAIL_USERNAME = os.environ.get("MAIL_USERNAME", "")
 MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD", "")
 MAIL_FROM     = os.environ.get("MAIL_FROM", MAIL_USERNAME)
+FRONTEND_URL  = os.environ.get("FRONTEND_URL", "https://smart-basket-63ww.onrender.com")
 
 def hash_password(pw):
     return hashlib.sha256(pw.encode()).hexdigest()
@@ -42,21 +43,34 @@ def send_email(to, subject, body):
         print(f"Email error (non-fatal): {e}")
         return False
 
-def login_required(f):
-    from functools import wraps
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if 'username' not in session:
-            return redirect('/login')
-        return f(*args, **kwargs)
-    return decorated
+# ── Auth token store (in-memory, good enough for small scale) ─────────────────
+# Maps auth_token -> {username, name, created_at}
+_auth_tokens = {}
+
+def create_auth_token(username, name):
+    """Create a short-lived token to pass to the React frontend."""
+    token = secrets.token_urlsafe(32)
+    _auth_tokens[token] = {
+        'username': username,
+        'name': name,
+        'created_at': time.time()
+    }
+    return token
+
+def verify_auth_token(token):
+    """Verify token and return user data, or None if invalid/expired."""
+    data = _auth_tokens.get(token)
+    if not data:
+        return None
+    # Tokens expire after 5 minutes (one-time use for handoff)
+    if time.time() - data['created_at'] > 300:
+        _auth_tokens.pop(token, None)
+        return None
+    return data
 
 # ── Login ─────────────────────────────────────────────────────────────────────
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    if 'username' in session:
-        return redirect('/app')
-
     if request.method == 'POST':
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '').strip()
@@ -77,38 +91,23 @@ def login():
         if user['password'] != hash_password(password):
             return render_template('login.html', error="Incorrect password.")
 
-        token = secrets.token_hex(32)
-        existing_tokens = user.get('session_tokens', []) or []
-        if isinstance(existing_tokens, str):
-            import json
-            try: existing_tokens = json.loads(existing_tokens)
-            except: existing_tokens = []
-        existing_tokens = existing_tokens[-1:] + [token]
-
+        # Update last login
         try:
             supabase.table('users').update({
-                'session_token':  token,
-                'session_tokens': existing_tokens,
-                'last_login':     datetime.utcnow().isoformat()
+                'last_login': datetime.utcnow().isoformat()
             }).eq('username', username).execute()
         except:
             pass
 
-        session['username']      = user['username']
-        session['name']          = user.get('name', username)
-        session['session_token'] = token
-        session['token_last_check'] = time.time()
-
-        return redirect('/app')
+        # Create token and redirect to React frontend
+        token = create_auth_token(username, user.get('name', username))
+        return redirect(f"{FRONTEND_URL}?auth_token={token}")
 
     return render_template('login.html')
 
 # ── Sign Up ───────────────────────────────────────────────────────────────────
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
-    if 'username' in session:
-        return redirect('/app')
-
     if request.method == 'POST':
         name     = request.form.get('name', '').strip()
         email    = request.form.get('email', '').strip().lower()
@@ -137,13 +136,13 @@ def signup():
 
         try:
             supabase.table('users').insert({
-                'name':           name,
-                'email':          email,
-                'username':       username,
-                'password':       hash_password(password),
-                'created_at':     datetime.utcnow().isoformat(),
-                'session_token':  None,
-                'session_tokens': [],
+                'name':             name,
+                'email':            email,
+                'username':         username,
+                'password':         hash_password(password),
+                'created_at':       datetime.utcnow().isoformat(),
+                'session_token':    None,
+                'session_tokens':   [],
                 'telegram_chat_id': None,
             }).execute()
         except Exception as e:
@@ -155,11 +154,13 @@ def signup():
             f"Hi {name},\n\nWelcome to SmartPicks by Natts Digital!\n\n"
             f"Your account is ready. Start saving on your grocery shop!\n\n"
             f"Username: {username}\n\n"
-            f"Visit: https://smart-basket-63ww.onrender.com\n\n"
+            f"Visit: {FRONTEND_URL}\n\n"
             f"— Natts Digital"
         )
 
-        return render_template('signup.html', success=f"Account created! Welcome, {name}.")
+        # Auto-login after signup
+        token = create_auth_token(username, name)
+        return redirect(f"{FRONTEND_URL}?auth_token={token}")
 
     return render_template('signup.html')
 
@@ -211,64 +212,131 @@ def forgot():
 # ── Logout ────────────────────────────────────────────────────────────────────
 @auth_bp.route('/logout')
 def logout():
-    if 'username' in session:
-        try:
-            supabase.table('users').update({
-                'session_token': None
-            }).eq('username', session['username']).execute()
-        except:
-            pass
     session.clear()
     return redirect('/login')
 
-# ── API: current user (called by React frontend) ──────────────────────────────
-@auth_bp.route('/api/me')
-def me():
-    if 'username' not in session:
-        return jsonify({'logged_in': False}), 401
+# ── API: verify token (called by React on load) ───────────────────────────────
+@auth_bp.route('/api/verify', methods=['POST'])
+def verify():
+    """React calls this with the auth_token to get user info."""
+    token = request.json.get('token', '')
+    data = verify_auth_token(token)
+    if not data:
+        return jsonify({'valid': False}), 401
+    # Consume token (one-time use)
+    _auth_tokens.pop(token, None)
     return jsonify({
-        'logged_in':  True,
-        'username':   session['username'],
-        'name':       session.get('name', session['username']),
+        'valid':    True,
+        'username': data['username'],
+        'name':     data['name'],
     })
 
-# ── API: save shopping list to Supabase ───────────────────────────────────────
+# ── API: check session (React calls this on every load after token exchange) ──
+@auth_bp.route('/api/me')
+def me():
+    """Check if user has a valid session stored in React (via token in header)."""
+    token = request.headers.get('X-Auth-Token', '')
+    if not token:
+        return jsonify({'logged_in': False}), 401
+    # Look up token in Supabase session_token field
+    try:
+        result = supabase.table('users').select('username, name, telegram_chat_id').eq('session_token', token).execute()
+        if not result.data:
+            return jsonify({'logged_in': False}), 401
+        user = result.data[0]
+        return jsonify({
+            'logged_in':        True,
+            'username':         user['username'],
+            'name':             user['name'],
+            'telegram_connected': bool(user.get('telegram_chat_id')),
+        })
+    except Exception as e:
+        return jsonify({'logged_in': False, 'error': str(e)}), 401
+
+# ── API: exchange auth token for session token ────────────────────────────────
+@auth_bp.route('/api/session', methods=['POST'])
+def create_session():
+    """After verifying auth_token, create a permanent session token for React."""
+    token = request.json.get('token', '')
+    data = verify_auth_token(token)
+    if not data:
+        return jsonify({'valid': False}), 401
+
+    # Create a long-lived session token
+    session_token = secrets.token_urlsafe(48)
+    try:
+        supabase.table('users').update({
+            'session_token': session_token
+        }).eq('username', data['username']).execute()
+    except Exception as e:
+        return jsonify({'valid': False, 'error': str(e)}), 500
+
+    _auth_tokens.pop(token, None)
+    return jsonify({
+        'valid':         True,
+        'session_token': session_token,
+        'username':      data['username'],
+        'name':          data['name'],
+    })
+
+# ── API: logout (React calls this) ────────────────────────────────────────────
+@auth_bp.route('/api/logout', methods=['POST'])
+def api_logout():
+    token = request.headers.get('X-Auth-Token', '')
+    if token:
+        try:
+            supabase.table('users').update({
+                'session_token': None
+            }).eq('session_token', token).execute()
+        except:
+            pass
+    return jsonify({'ok': True})
+
+# ── API: save shopping list ───────────────────────────────────────────────────
 @auth_bp.route('/api/list/save', methods=['POST'])
 def save_list():
-    if 'username' not in session:
+    token = request.headers.get('X-Auth-Token', '')
+    if not token:
         return jsonify({'error': 'Not logged in'}), 401
-    username = session['username']
-    items = request.json.get('items', [])  # list of product name strings
-
     try:
-        # Delete existing list items for this user
+        result = supabase.table('users').select('username').eq('session_token', token).execute()
+        if not result.data:
+            return jsonify({'error': 'Invalid session'}), 401
+        username = result.data[0]['username']
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+    items = request.json.get('items', [])
+    try:
         supabase.table('list_items').delete().eq('username', username).execute()
-        # Insert new items
         if items:
-            rows = [{'username': username, 'product_name': item, 'list_id': None} for item in items]
+            rows = [{'username': username, 'name': item} for item in items]
             supabase.table('list_items').insert(rows).execute()
         return jsonify({'ok': True, 'saved': len(items)})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# ── API: load shopping list from Supabase ────────────────────────────────────
+# ── API: load shopping list ───────────────────────────────────────────────────
 @auth_bp.route('/api/list/load')
 def load_list():
-    if 'username' not in session:
+    token = request.headers.get('X-Auth-Token', '')
+    if not token:
         return jsonify({'items': []})
-    username = session['username']
     try:
-        result = supabase.table('list_items').select('product_name').eq('username', username).execute()
-        items = [r['product_name'] for r in result.data]
-        return jsonify({'items': items})
+        result = supabase.table('users').select('username').eq('session_token', token).execute()
+        if not result.data:
+            return jsonify({'items': []})
+        username = result.data[0]['username']
+        rows = supabase.table('list_items').select('name').eq('username', username).execute().data
+        return jsonify({'items': [r['name'] for r in rows]})
     except Exception as e:
         return jsonify({'items': [], 'error': str(e)})
 
-# ── Telegram connect ──────────────────────────────────────────────────────────
+# ── API: telegram connect ─────────────────────────────────────────────────────
 @auth_bp.route('/api/telegram/connect', methods=['POST'])
 def telegram_connect():
-    """User submits their Telegram chat ID to enable notifications."""
-    if 'username' not in session:
+    token = request.headers.get('X-Auth-Token', '')
+    if not token:
         return jsonify({'error': 'Not logged in'}), 401
     chat_id = request.json.get('chat_id', '').strip()
     if not chat_id:
@@ -276,19 +344,20 @@ def telegram_connect():
     try:
         supabase.table('users').update({
             'telegram_chat_id': chat_id
-        }).eq('username', session['username']).execute()
+        }).eq('session_token', token).execute()
         return jsonify({'ok': True})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# ── API: get telegram status ──────────────────────────────────────────────────
+# ── API: telegram status ──────────────────────────────────────────────────────
 @auth_bp.route('/api/telegram/status')
 def telegram_status():
-    if 'username' not in session:
+    token = request.headers.get('X-Auth-Token', '')
+    if not token:
         return jsonify({'connected': False}), 401
     try:
-        result = supabase.table('users').select('telegram_chat_id').eq('username', session['username']).execute()
+        result = supabase.table('users').select('telegram_chat_id').eq('session_token', token).execute()
         chat_id = result.data[0].get('telegram_chat_id') if result.data else None
-        return jsonify({'connected': bool(chat_id), 'chat_id': chat_id})
+        return jsonify({'connected': bool(chat_id)})
     except Exception as e:
         return jsonify({'connected': False, 'error': str(e)})

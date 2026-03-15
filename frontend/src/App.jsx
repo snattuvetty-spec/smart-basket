@@ -2,11 +2,12 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import SpecialsPage from "./SpecialsPage";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const LOGIN_URL = `${API}/login`;
 
 const STORE_CONFIG = {
-  woolworths: { label: "Woolworths", color: "#00c6ff", bg: "rgba(0,198,255,0.12)",   pill: "#00c6ff",  emoji: "🟢" },
-  coles:      { label: "Coles",      color: "#f87171", bg: "rgba(248,113,113,0.12)", pill: "#f87171",  emoji: "🔴" },
-  aldi:       { label: "Aldi",       color: "#818cf8", bg: "rgba(129,140,248,0.12)", pill: "#818cf8",  emoji: "🔵" },
+  woolworths: { label: "Woolworths", color: "#00c6ff", bg: "rgba(0,198,255,0.12)", pill: "#00c6ff", emoji: "🟢" },
+  coles:      { label: "Coles",      color: "#f87171", bg: "rgba(248,113,113,0.12)", pill: "#f87171", emoji: "🔴" },
+  aldi:       { label: "Aldi",       color: "#818cf8", bg: "rgba(129,140,248,0.12)", pill: "#818cf8", emoji: "🔵" },
 };
 
 function getCheapest(prices) {
@@ -25,19 +26,112 @@ function totalSaved(items) {
 
 let uid = 1;
 
+// ── Auth helpers ──────────────────────────────────────────────────────────────
+function getSessionToken() { return localStorage.getItem('sp_session_token'); }
+function getUser() {
+  const u = localStorage.getItem('sp_user');
+  return u ? JSON.parse(u) : null;
+}
+function setSession(token, user) {
+  localStorage.setItem('sp_session_token', token);
+  localStorage.setItem('sp_user', JSON.stringify(user));
+}
+function clearSession() {
+  localStorage.removeItem('sp_session_token');
+  localStorage.removeItem('sp_user');
+}
+function authHeaders() {
+  const token = getSessionToken();
+  return token ? { 'X-Auth-Token': token, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
+}
+
 export default function App() {
-  const [tab, setTab] = useState("specials");
-  const [items, setItems] = useState([
-    { id: uid++, name: "Full Cream Milk 2L",   qty: 2, prices: null },
-    { id: uid++, name: "Free Range Eggs 12pk", qty: 1, prices: null },
-    { id: uid++, name: "Chicken Breast 1kg",   qty: 1, prices: null },
-    { id: uid++, name: "Pasta 500g",           qty: 2, prices: null },
-    { id: uid++, name: "Canned Tomatoes 400g", qty: 3, prices: null },
-    { id: uid++, name: "Olive Oil 750ml",      qty: 1, prices: null },
-    { id: uid++, name: "Baby Spinach 120g",    qty: 1, prices: null },
-    { id: uid++, name: "Toilet Paper 12pk",    qty: 1, prices: null },
-  ]);
+  const [authState, setAuthState] = useState('checking'); // 'checking' | 'authed' | 'unauthed'
+  const [user, setUser]           = useState(null);
+  const [tab, setTab]             = useState("specials");
+  const [items, setItems]         = useState([]);
   const [loadingPrices, setLoadingPrices] = useState(false);
+
+  // ── Auth check on load ──────────────────────────────────────────────────────
+  useEffect(() => {
+    const init = async () => {
+      // Check for auth_token in URL (coming back from login page)
+      const params = new URLSearchParams(window.location.search);
+      const authToken = params.get('auth_token');
+
+      if (authToken) {
+        // Exchange auth token for session token
+        try {
+          const res = await fetch(`${API}/api/session`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: authToken }),
+          });
+          const data = await res.json();
+          if (data.valid) {
+            setSession(data.session_token, { username: data.username, name: data.name });
+            setUser({ username: data.username, name: data.name });
+            setAuthState('authed');
+            // Clean URL
+            window.history.replaceState({}, '', '/');
+            // Load saved list
+            loadSavedList();
+            return;
+          }
+        } catch (e) {
+          console.error('Token exchange failed:', e);
+        }
+      }
+
+      // Check existing session
+      const sessionToken = getSessionToken();
+      const cachedUser = getUser();
+      if (sessionToken && cachedUser) {
+        setUser(cachedUser);
+        setAuthState('authed');
+        loadSavedList();
+        return;
+      }
+
+      // Not logged in — redirect to login
+      setAuthState('unauthed');
+      window.location.href = LOGIN_URL;
+    };
+
+    init();
+  }, []);
+
+  const loadSavedList = async () => {
+    try {
+      const res = await fetch(`${API}/api/list/load`, { headers: authHeaders() });
+      const data = await res.json();
+      if (data.items && data.items.length > 0) {
+        setItems(data.items.map(name => ({ id: uid++, name, qty: 1, prices: null })));
+      }
+    } catch (e) {
+      console.error('Load list failed:', e);
+    }
+  };
+
+  const saveList = useCallback(async (currentItems) => {
+    try {
+      await fetch(`${API}/api/list/save`, {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({ items: currentItems.map(i => i.name) }),
+      });
+    } catch (e) {
+      console.error('Save list failed:', e);
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${API}/api/logout`, { method: 'POST', headers: authHeaders() });
+    } catch (e) {}
+    clearSession();
+    window.location.href = LOGIN_URL;
+  };
 
   const fetchPrices = useCallback(async (currentItems) => {
     const names = currentItems.map(i => i.name);
@@ -61,8 +155,6 @@ export default function App() {
     }
   }, []);
 
-  useEffect(() => { fetchPrices(items); }, []);
-
   const addItem = (name, existingItems) => {
     let newItems;
     const existing = existingItems.find(i => i.name === name);
@@ -79,19 +171,35 @@ export default function App() {
       }).catch(console.error);
     }
     setItems(newItems);
+    saveList(newItems);
     return newItems;
   };
 
   const handleAddFromSpecials = (name, special) => {
     const prices = special?.price && special?.store ? { [special.store]: special.price } : null;
     const existing = items.find(i => i.name === name);
+    let newItems;
     if (existing) {
-      setItems(prev => prev.map(i => i.id === existing.id ? { ...i, qty: i.qty + 1, prices: prices || i.prices } : i));
+      newItems = items.map(i => i.id === existing.id ? { ...i, qty: i.qty + 1, prices: prices || i.prices } : i);
     } else {
-      setItems(prev => [...prev, { id: uid++, name, qty: 1, prices }]);
+      newItems = [...items, { id: uid++, name, qty: 1, prices }];
     }
+    setItems(newItems);
+    saveList(newItems);
     setTab("list");
   };
+
+  // ── Loading / redirect state ──────────────────────────────────────────────
+  if (authState === 'checking' || authState === 'unauthed') {
+    return (
+      <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#040d1a", minHeight: "100vh", maxWidth: 430, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ textAlign: "center", color: "rgba(255,255,255,0.4)" }}>
+          <div style={{ fontSize: 40, marginBottom: 16 }}>🛒</div>
+          <div style={{ fontSize: 14 }}>{authState === 'unauthed' ? 'Redirecting to login...' : 'Loading...'}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#040d1a", minHeight: "100vh", maxWidth: 430, margin: "0 auto", display: "flex", flexDirection: "column" }}>
@@ -124,21 +232,28 @@ export default function App() {
 
       <div className="sb-bg"><div className="sb-grid" /><div className="sb-glow" /></div>
 
-      <div style={{ position: "relative", zIndex: 1, padding: "20px 20px 0", display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+      {/* Header */}
+      <div style={{ position: "relative", zIndex: 1, padding: "16px 20px 0", display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
         <div style={{ width: 34, height: 34, borderRadius: 10, background: "linear-gradient(135deg, #0072ff, #00c6ff)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 17, boxShadow: "0 4px 14px rgba(0,114,255,0.4)" }}>🛒</div>
         <div>
           <div style={{ color: "#00c6ff", fontSize: 17, fontWeight: 800, fontFamily: "'Syne', sans-serif", lineHeight: 1 }}>SmartPicks</div>
           <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 9, letterSpacing: 2, textTransform: "uppercase" }}>by Natts Digital</div>
         </div>
-        {loadingPrices && <div style={{ marginLeft: "auto", width: 16, height: 16, border: "2px solid rgba(0,198,255,0.2)", borderTopColor: "#00c6ff", borderRadius: "50%" }} className="spinner" />}
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10 }}>
+          {loadingPrices && <div style={{ width: 16, height: 16, border: "2px solid rgba(0,198,255,0.2)", borderTopColor: "#00c6ff", borderRadius: "50%" }} className="spinner" />}
+          <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, fontWeight: 600 }}>Hi, {user?.name?.split(' ')[0]}</div>
+          <button onClick={handleLogout} style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, color: "rgba(255,255,255,0.4)", fontSize: 11, padding: "4px 10px", cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }}>Logout</button>
+        </div>
       </div>
 
+      {/* Page content */}
       <div className="sb-content" style={{ paddingBottom: 68 }}>
         {tab === "specials" && <SpecialsPage onAddToList={handleAddFromSpecials} />}
-        {tab === "list" && <ListView items={items} setItems={setItems} addItem={addItem} loadingPrices={loadingPrices} goCompare={() => setTab("compare")} />}
+        {tab === "list" && <ListView items={items} setItems={setItems} addItem={addItem} loadingPrices={loadingPrices} goCompare={() => setTab("compare")} saveList={saveList} />}
         {tab === "compare" && <CompareView items={items} goBack={() => setTab("list")} />}
       </div>
 
+      {/* Bottom nav */}
       <nav className="bottom-nav">
         <button className={`nav-btn ${tab === "specials" ? "active" : ""}`} onClick={() => setTab("specials")}>
           <span className="nav-icon">🏷️</span>
@@ -157,7 +272,7 @@ export default function App() {
   );
 }
 
-function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
+function ListView({ items, setItems, addItem, loadingPrices, goCompare, saveList }) {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -182,10 +297,13 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
     inputRef.current?.focus();
   };
 
-  const remove = (id) => setItems(prev => prev.filter(i => i.id !== id));
+  const remove = (id) => {
+    const newItems = items.filter(i => i.id !== id);
+    setItems(newItems);
+    saveList(newItems);
+  };
   const changeQty = (id, d) => setItems(prev => prev.map(i => i.id === id ? { ...i, qty: Math.max(1, i.qty + d) } : i));
   const savings = totalSaved(items);
-  const knownCount = items.filter(i => i.prices).length;
 
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
@@ -256,7 +374,7 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare }) {
         <div style={{ padding: "16px 16px 8px" }}>
           <button className="cta-btn" onClick={goCompare} style={{ width: "100%", padding: "15px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #0072ff, #00c6ff)", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
             <span>Compare Prices</span>
-            {savings > 0 && <span style={{ background: "rgba(255,255,255,0.2)", borderRadius: 8, padding: "3px 10px", fontSize: 13, fontWeight: 800, fontFamily: "'DM Mono', monospace" }}>Save ${totalSaved(items).toFixed(2)}</span>}
+            {savings > 0 && <span style={{ background: "rgba(255,255,255,0.2)", borderRadius: 8, padding: "3px 10px", fontSize: 13, fontWeight: 800, fontFamily: "'DM Mono', monospace" }}>Save ${savings.toFixed(2)}</span>}
             <span>→</span>
           </button>
         </div>
