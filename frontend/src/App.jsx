@@ -106,7 +106,26 @@ export default function App() {
       const res = await fetch(`${API}/api/list/load`, { headers: authHeaders() });
       const data = await res.json();
       if (data.items && data.items.length > 0) {
-        setItems(data.items.map(name => ({ id: uid++, name, qty: 1, prices: null })));
+        const loaded = data.items.map(name => ({ id: uid++, name, qty: 1, prices: null }));
+        setItems(loaded);
+        // Fetch cross-store prices for all loaded items
+        setLoadingPrices(true);
+        try {
+          const priceRes = await fetch(`${API}/api/prices`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ items: data.items }),
+          });
+          const priceData = await priceRes.json();
+          setItems(loaded.map(item => ({
+            ...item,
+            prices: priceData[item.name] || null,
+          })));
+        } catch (e) {
+          console.error('Price fetch failed:', e);
+        } finally {
+          setLoadingPrices(false);
+        }
       }
     } catch (e) {
       console.error('Load list failed:', e);
