@@ -23,7 +23,12 @@ async function fetchSpecials({ store, halfPrice, search, sort, page }) {
 
   if (store !== "all") url += `&store=eq.${store}`;
   if (halfPrice) url += `&is_half_price=eq.true`;
-  if (search) url += `&name=ilike.*${encodeURIComponent(search)}*`;
+  if (search) {
+    // Normalise: strip hyphens, build full-text search query
+    const normalised = search.replace(/-/g, ' ').trim();
+    const ftsQuery = normalised.split(/\s+/).filter(Boolean).join(' & ');
+    url += `&name_search=fts.${encodeURIComponent(ftsQuery)}`;
+  }
 
   const res = await fetch(url, {
     headers: {
@@ -195,8 +200,11 @@ export default function SpecialsPage({ onAddToList }) {
 function SpecialCard({ item, idx, onAdd }) {
   const cfg = STORE_CONFIG[item.store] || STORE_CONFIG.woolworths;
   const savingPct = item.saving_pct ? Math.round(item.saving_pct) : null;
-  
-  const imgUrl = item.thumbnail || null;
+  const imgUrl = item.thumbnail
+    ? (item.store === "woolworths"
+        ? `https://cdn0.woolworths.media/content/wowproductimages/small/${item.thumbnail}.jpg`
+        : item.thumbnail)
+    : null;
 
   return (
     <div className="sp-card" style={{ animationDelay: `${(idx % PAGE_SIZE) * 0.02}s`, display: "flex", flexDirection: "column" }}>
