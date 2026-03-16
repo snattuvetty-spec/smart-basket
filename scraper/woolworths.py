@@ -23,7 +23,7 @@ SPECIAL_GROUPS = {
 
 }
 
-PAGE_SIZE = 48
+PAGE_SIZE = 36
 
 
 def get_headers(referer):

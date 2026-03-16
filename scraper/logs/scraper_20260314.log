@@ -1,0 +1,104 @@
+Starting SmartPicks Scraper at Sat 14/03/2026  6:00:02.33 
+2026-03-14 06:00:03,042 [INFO] SmartPicks Scraper starting...
+2026-03-14 06:00:03,042 [INFO] Python version: 3.13.6 (tags/v3.13.6:4e66535, Aug  6 2025, 14:36:00) [MSC v.1944 64 bit (AMD64)]
+2026-03-14 06:00:03,042 [INFO] SUPABASE_URL set: True
+2026-03-14 06:00:03,042 [INFO] SUPABASE_KEY set: True
+2026-03-14 06:00:03,042 [INFO] MAIL_USERNAME set: False
+2026-03-14 06:00:06,612 [INFO] ============================================================
+2026-03-14 06:00:06,612 [INFO] SmartPicks Scraper - Main
+2026-03-14 06:00:06,612 [INFO] ============================================================
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Python313\Lib\logging\__init__.py", line 1154, in emit
+    stream.write(msg + self.terminator)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 53: character maps to <undefined>
+Call stack:
+  File "C:\Users\snatt\Documents\MY_APP_PROJECTS_NEW\smart-basket\scraper\main.py", line 186, in <module>
+    main()
+  File "C:\Users\snatt\Documents\MY_APP_PROJECTS_NEW\smart-basket\scraper\main.py", line 110, in main
+    logger.info("Connected to Supabase \u2705")
+Message: 'Connected to Supabase \u2705'
+Arguments: ()
+2026-03-14 06:00:07,149 [INFO] Scraping Woolworths...
+2026-03-14 06:00:09,159 [INFO] Woolworths 'Half Price' page 1: 42 products (total so far: 42/1708)
+2026-03-14 06:00:11,073 [INFO] Woolworths 'Half Price' page 2: 40 products (total so far: 82/1708)
+2026-03-14 06:00:12,962 [INFO] Woolworths 'Half Price' page 3: 41 products (total so far: 123/1708)
+2026-03-14 06:00:16,483 [INFO] Woolworths 'Half Price' page 4: 36 products (total so far: 159/1708)
+2026-03-14 06:00:18,456 [INFO] Woolworths 'Half Price' page 5: 42 products (total so far: 201/1708)
+2026-03-14 06:00:20,285 [INFO] Woolworths 'Half Price' page 6: 42 products (total so far: 243/1708)
+2026-03-14 06:00:21,981 [INFO] Woolworths 'Half Price' page 7: 32 products (total so far: 275/1708)
+2026-03-14 06:00:23,830 [INFO] Woolworths 'Half Price' page 8: 31 products (total so far: 306/1708)
+2026-03-14 06:00:25,776 [INFO] Woolworths 'Half Price' page 9: 32 products (total so far: 338/1708)
+2026-03-14 06:00:27,582 [INFO] Woolworths 'Half Price' page 10: 32 products (total so far: 370/1708)
+2026-03-14 06:00:29,085 [INFO] Woolworths 'Half Price' page 11: 33 products (total so far: 403/1708)
+2026-03-14 06:00:30,699 [INFO] Woolworths 'Half Price' page 12: 35 products (total so far: 438/1708)
+2026-03-14 06:00:32,751 [INFO] Woolworths 'Half Price' page 13: 33 products (total so far: 471/1708)
+2026-03-14 06:00:34,506 [INFO] Woolworths 'Half Price' page 14: 33 products (total so far: 504/1708)
+2026-03-14 06:00:35,889 [INFO] Woolworths 'Half Price' page 15: 33 products (total so far: 537/1708)
+2026-03-14 06:00:37,357 [INFO] Woolworths 'Half Price' page 16: 35 products (total so far: 572/1708)
+2026-03-14 06:00:38,862 [INFO] Woolworths 'Half Price' page 17: 32 products (total so far: 604/1708)
+2026-03-14 06:00:40,701 [INFO] Woolworths 'Half Price' page 18: 36 products (total so far: 640/1708)
+2026-03-14 06:00:42,609 [INFO] Woolworths 'Half Price' page 19: 35 products (total so far: 675/1708)
+2026-03-14 06:00:43,952 [INFO] Woolworths 'Half Price' page 20: 34 products (total so far: 709/1708)
+2026-03-14 06:00:47,220 [INFO] Woolworths 'Half Price' page 21: 33 products (total so far: 742/1708)
+2026-03-14 06:00:48,926 [INFO] Woolworths 'Half Price' page 22: 34 products (total so far: 776/1708)
+2026-03-14 06:00:50,623 [INFO] Woolworths 'Half Price' page 23: 33 products (total so far: 809/1708)
+2026-03-14 06:00:52,043 [INFO] Woolworths 'Half Price' page 24: 33 products (total so far: 842/1708)
+2026-03-14 06:00:54,836 [INFO] Woolworths 'Half Price' page 25: 32 products (total so far: 874/1708)
+2026-03-14 06:00:56,358 [INFO] Woolworths 'Half Price' page 26: 33 products (total so far: 907/1708)
+2026-03-14 06:00:58,338 [INFO] Woolworths 'Half Price' page 27: 33 products (total so far: 940/1708)
+2026-03-14 06:00:59,633 [INFO] Woolworths 'Half Price' page 28: 34 products (total so far: 974/1708)
+2026-03-14 06:01:02,619 [INFO] Woolworths 'Half Price' page 29: 31 products (total so far: 1005/1708)
+2026-03-14 06:01:04,189 [INFO] Woolworths 'Half Price' page 30: 29 products (total so far: 1034/1708)
+2026-03-14 06:01:06,482 [INFO] Woolworths 'Half Price' page 31: 32 products (total so far: 1066/1708)
+2026-03-14 06:01:08,419 [INFO] Woolworths 'Half Price' page 32: 33 products (total so far: 1099/1708)
+2026-03-14 06:01:10,131 [INFO] Woolworths 'Half Price' page 33: 33 products (total so far: 1132/1708)
+2026-03-14 06:01:12,056 [INFO] Woolworths 'Half Price' page 34: 31 products (total so far: 1163/1708)
+2026-03-14 06:01:13,738 [INFO] Woolworths 'Half Price' page 35: 34 products (total so far: 1197/1708)
+2026-03-14 06:01:15,263 [INFO] Woolworths 'Half Price' page 36: 32 products (total so far: 1229/1708)
+2026-03-14 06:01:17,334 [INFO] Woolworths 'Half Price' page 37: 31 products (total so far: 1260/1708)
+2026-03-14 06:01:19,521 [INFO] Woolworths 'Half Price' page 38: 31 products (total so far: 1291/1708)
+2026-03-14 06:01:20,914 [INFO] Woolworths 'Half Price' page 39: 36 products (total so far: 1327/1708)
+2026-03-14 06:01:23,244 [INFO] Woolworths 'Half Price' page 40: 29 products (total so far: 1356/1708)
+2026-03-14 06:01:26,761 [INFO] Woolworths 'Half Price' page 41: 33 products (total so far: 1389/1708)
+2026-03-14 06:01:28,499 [INFO] Woolworths 'Half Price' page 42: 28 products (total so far: 1417/1708)
+2026-03-14 06:01:29,943 [INFO] Woolworths 'Half Price' page 43: 36 products (total so far: 1453/1708)
+2026-03-14 06:01:32,485 [INFO] Woolworths 'Half Price' page 44: 30 products (total so far: 1483/1708)
+2026-03-14 06:01:33,976 [INFO] Woolworths 'Half Price' page 45: 36 products (total so far: 1519/1708)
+2026-03-14 06:01:35,475 [INFO] Woolworths 'Half Price' page 46: 32 products (total so far: 1551/1708)
+2026-03-14 06:01:37,451 [INFO] Woolworths 'Half Price' page 47: 34 products (total so far: 1585/1708)
+2026-03-14 06:01:38,755 [INFO] Woolworths 'Half Price' page 48: 16 products (total so far: 1601/1708)
+2026-03-14 06:01:38,755 [INFO] Woolworths 'Half Price': 1601 specials scraped
+2026-03-14 06:01:40,330 [INFO] Woolworths 'Lower Shelf Price' page 1: 36 products (total so far: 36/714)
+2026-03-14 06:01:41,809 [INFO] Woolworths 'Lower Shelf Price' page 2: 36 products (total so far: 72/714)
+2026-03-14 06:01:43,533 [INFO] Woolworths 'Lower Shelf Price' page 3: 35 products (total so far: 107/714)
+2026-03-14 06:01:45,337 [INFO] Woolworths 'Lower Shelf Price' page 4: 35 products (total so far: 142/714)
+2026-03-14 06:01:46,960 [INFO] Woolworths 'Lower Shelf Price' page 5: 35 products (total so far: 177/714)
+2026-03-14 06:01:48,450 [INFO] Woolworths 'Lower Shelf Price' page 6: 36 products (total so far: 213/714)
+2026-03-14 06:01:50,239 [INFO] Woolworths 'Lower Shelf Price' page 7: 35 products (total so far: 248/714)
+2026-03-14 06:01:52,034 [INFO] Woolworths 'Lower Shelf Price' page 8: 36 products (total so far: 284/714)
+2026-03-14 06:01:53,566 [INFO] Woolworths 'Lower Shelf Price' page 9: 34 products (total so far: 318/714)
+2026-03-14 06:01:55,009 [INFO] Woolworths 'Lower Shelf Price' page 10: 36 products (total so far: 354/714)
+2026-03-14 06:01:56,887 [INFO] Woolworths 'Lower Shelf Price' page 11: 34 products (total so far: 388/714)
+2026-03-14 06:01:58,458 [INFO] Woolworths 'Lower Shelf Price' page 12: 35 products (total so far: 423/714)
+2026-03-14 06:02:00,297 [INFO] Woolworths 'Lower Shelf Price' page 13: 35 products (total so far: 458/714)
+2026-03-14 06:02:02,113 [INFO] Woolworths 'Lower Shelf Price' page 14: 35 products (total so far: 493/714)
+2026-03-14 06:02:03,986 [INFO] Woolworths 'Lower Shelf Price' page 15: 34 products (total so far: 527/714)
+2026-03-14 06:02:05,841 [INFO] Woolworths 'Lower Shelf Price' page 16: 35 products (total so far: 562/714)
+2026-03-14 06:02:07,691 [INFO] Woolworths 'Lower Shelf Price' page 17: 35 products (total so far: 597/714)
+2026-03-14 06:02:09,032 [INFO] Woolworths 'Lower Shelf Price' page 18: 36 products (total so far: 633/714)
+2026-03-14 06:02:10,902 [INFO] Woolworths 'Lower Shelf Price' page 19: 36 products (total so far: 669/714)
+2026-03-14 06:02:12,479 [INFO] Woolworths 'Lower Shelf Price' page 20: 30 products (total so far: 699/714)
+2026-03-14 06:02:12,479 [INFO] Woolworths 'Lower Shelf Price': 699 specials scraped
+2026-03-14 06:02:15,075 [INFO] Woolworths 'Everyday Low Price' page 1: 44 products (total so far: 44/2851)
+2026-03-14 06:02:16,999 [INFO] Woolworths 'Everyday Low Price' page 2: 43 products (total so far: 87/2851)
+2026-03-14 06:02:19,295 [INFO] Woolworths 'Everyday Low Price' page 3: 43 products (total so far: 130/2851)
+2026-03-14 06:02:21,108 [INFO] Woolworths 'Everyday Low Price' page 4: 43 products (total so far: 173/2851)
+2026-03-14 06:02:22,880 [INFO] Woolworths 'Everyday Low Price' page 5: 41 products (total so far: 214/2851)
+2026-03-14 06:02:24,745 [INFO] Woolworths 'Everyday Low Price' page 6: 42 products (total so far: 256/2851)
+2026-03-14 06:02:26,734 [INFO] Woolworths 'Everyday Low Price' page 7: 35 products (total so far: 291/2851)
+^C

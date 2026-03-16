@@ -7,7 +7,6 @@ const LOGIN_URL = `${API}/login`;
 const STORE_CONFIG = {
   woolworths: { label: "Woolworths", color: "#00c6ff", bg: "rgba(0,198,255,0.12)", pill: "#00c6ff", emoji: "🟢" },
   coles:      { label: "Coles",      color: "#f87171", bg: "rgba(248,113,113,0.12)", pill: "#f87171", emoji: "🔴" },
-  aldi:       { label: "Aldi",       color: "#818cf8", bg: "rgba(129,140,248,0.12)", pill: "#818cf8", emoji: "🔵" },
 };
 
 function getCheapest(prices) {
@@ -17,9 +16,15 @@ function getCheapest(prices) {
 
 function totalSaved(items) {
   return items.reduce((sum, item) => {
+    // Use was_price saving if available
+    if (item.special?.was_price && item.special?.price) {
+      return sum + (item.special.was_price - item.special.price) * item.qty;
+    }
+    // Fallback: cross-store price diff
     const p = item.prices;
     if (!p) return sum;
     const vals = Object.values(p);
+    if (vals.length < 2) return sum;
     return sum + (Math.max(...vals) - Math.min(...vals)) * item.qty;
   }, 0);
 }
@@ -428,13 +433,13 @@ function ListView({ items, setItems, addItem, loadingPrices, goCompare, saveList
 }
 
 function CompareView({ items, goBack }) {
-  const groups = { woolworths: [], coles: [], aldi: [], unknown: [] };
+  const groups = { woolworths: [], coles: [], unknown: [] };
   items.forEach(item => {
     const cheap = getCheapest(item.prices);
     (groups[cheap] || groups.unknown).push(item);
   });
 
-  const storeOrder = ["woolworths", "coles", "aldi"].sort((a, b) => groups[b].length - groups[a].length);
+  const storeOrder = ["woolworths", "coles"].sort((a, b) => groups[b].length - groups[a].length);
   const storeTotals = {};
   storeOrder.forEach(store => {
     storeTotals[store] = groups[store].reduce((sum, item) => sum + (item.prices?.[store] || 0) * item.qty, 0);

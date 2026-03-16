@@ -13,3 +13,4 @@ echo Finished at %date% %time% >> %logfile%
 
 :: Delete logs older than 7 days
 forfiles /p logs /m scraper_*.log /d -7 /c "cmd /c del @path" 2>nul
+set TELEGRAM_BOT_TOKEN=8726173615:AAFEfwj38iLg9JYPNGvwOHFO47gqk6KmeHM

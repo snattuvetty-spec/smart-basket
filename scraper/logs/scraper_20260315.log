@@ -1,0 +1,253 @@
+Starting SmartPicks Scraper at Sun 15/03/2026 18:38:03.32 
+2026-03-15 18:38:03,604 [INFO] SmartPicks Scraper starting...
+2026-03-15 18:38:03,604 [INFO] Python version: 3.13.6 (tags/v3.13.6:4e66535, Aug  6 2025, 14:36:00) [MSC v.1944 64 bit (AMD64)]
+2026-03-15 18:38:03,604 [INFO] SUPABASE_URL set: True
+2026-03-15 18:38:03,604 [INFO] SUPABASE_KEY set: True
+2026-03-15 18:38:03,604 [INFO] MAIL_USERNAME set: False
+2026-03-15 18:38:06,192 [INFO] ============================================================
+2026-03-15 18:38:06,192 [INFO] SmartPicks Scraper - Main
+2026-03-15 18:38:06,192 [INFO] ============================================================
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Python313\Lib\logging\__init__.py", line 1154, in emit
+    stream.write(msg + self.terminator)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 53: character maps to <undefined>
+Call stack:
+  File "C:\Users\snatt\Documents\MY_APP_PROJECTS_NEW\smart-basket\scraper\main.py", line 186, in <module>
+    main()
+  File "C:\Users\snatt\Documents\MY_APP_PROJECTS_NEW\smart-basket\scraper\main.py", line 110, in main
+    logger.info("Connected to Supabase \u2705")
+Message: 'Connected to Supabase \u2705'
+Arguments: ()
+2026-03-15 18:38:06,758 [INFO] Scraping Woolworths...
+2026-03-15 18:38:08,442 [WARNING] Woolworths Half Price page 1: HTTP 400
+2026-03-15 18:38:08,443 [INFO] Woolworths 'Half Price': 0 specials scraped
+2026-03-15 18:38:10,550 [WARNING] Woolworths Lower Shelf Price page 1: HTTP 400
+2026-03-15 18:38:10,551 [INFO] Woolworths 'Lower Shelf Price': 0 specials scraped
+2026-03-15 18:38:12,204 [WARNING] Woolworths Everyday Low Price page 1: HTTP 400
+2026-03-15 18:38:12,205 [INFO] Woolworths 'Everyday Low Price': 0 specials scraped
+2026-03-15 18:38:14,299 [WARNING] Woolworths Autumn Price page 1: HTTP 400
+2026-03-15 18:38:14,299 [INFO] Woolworths 'Autumn Price': 0 specials scraped
+2026-03-15 18:38:15,843 [WARNING] Woolworths Buy More Save More page 1: HTTP 400
+2026-03-15 18:38:15,843 [INFO] Woolworths 'Buy More Save More': 0 specials scraped
+2026-03-15 18:38:17,573 [WARNING] Woolworths Specials page 1: HTTP 400
+2026-03-15 18:38:17,573 [INFO] Woolworths 'Specials': 0 specials scraped
+2026-03-15 18:38:19,081 [WARNING] Woolworths Save Now page 1: HTTP 400
+2026-03-15 18:38:19,082 [INFO] Woolworths 'Save Now': 0 specials scraped
+2026-03-15 18:38:20,306 [INFO] Woolworths total: 0 unique specials, 0 blocked, 7 errors
+2026-03-15 18:38:20,309 [INFO] Woolworths: 0 specials, 0 blocked, 7 errors
+2026-03-15 18:38:20,309 [INFO] Scraping Coles...
+2026-03-15 18:38:21,332 [INFO] Coles buildId: 20260310.4-d51173fab603623c68e557a054992d8939a1a9e7
+2026-03-15 18:38:22,603 [INFO] Coles: 7341 specials across 153 pages (pageSize=48)
+2026-03-15 18:38:22,603 [INFO] Coles page 1: 58 products
+2026-03-15 18:38:22,903 [INFO] Coles page 2/153: 56 products (total: 114)
+2026-03-15 18:38:23,832 [INFO] Coles page 3/153: 57 products (total: 171)
+2026-03-15 18:38:24,822 [INFO] Coles page 4/153: 58 products (total: 229)
+2026-03-15 18:38:25,882 [INFO] Coles page 5/153: 58 products (total: 287)
+2026-03-15 18:38:27,191 [INFO] Coles page 6/153: 55 products (total: 342)
+2026-03-15 18:38:28,831 [INFO] Coles page 7/153: 48 products (total: 390)
+2026-03-15 18:38:29,992 [INFO] Coles page 8/153: 48 products (total: 438)
+2026-03-15 18:38:31,332 [INFO] Coles page 9/153: 48 products (total: 486)
+2026-03-15 18:38:32,132 [INFO] Coles page 10/153: 48 products (total: 534)
+2026-03-15 18:38:33,286 [INFO] Coles page 11/153: 48 products (total: 582)
+2026-03-15 18:38:34,394 [INFO] Coles page 12/153: 47 products (total: 629)
+2026-03-15 18:38:35,426 [INFO] Coles page 13/153: 48 products (total: 677)
+2026-03-15 18:38:36,559 [INFO] Coles page 14/153: 48 products (total: 725)
+2026-03-15 18:38:37,860 [INFO] Coles page 15/153: 48 products (total: 773)
+2026-03-15 18:38:38,824 [INFO] Coles page 16/153: 48 products (total: 821)
+2026-03-15 18:38:39,667 [INFO] Coles page 17/153: 48 products (total: 869)
+2026-03-15 18:38:40,981 [INFO] Coles page 18/153: 48 products (total: 917)
+2026-03-15 18:38:42,349 [INFO] Coles page 19/153: 48 products (total: 965)
+2026-03-15 18:38:43,298 [INFO] Coles page 20/153: 48 products (total: 1013)
+2026-03-15 18:38:44,750 [INFO] Coles page 21/153: 48 products (total: 1061)
+2026-03-15 18:38:46,234 [INFO] Coles page 22/153: 48 products (total: 1109)
+2026-03-15 18:38:47,914 [INFO] Coles page 23/153: 48 products (total: 1157)
+2026-03-15 18:38:49,092 [INFO] Coles page 24/153: 48 products (total: 1205)
+2026-03-15 18:38:50,526 [INFO] Coles page 25/153: 48 products (total: 1253)
+2026-03-15 18:38:52,040 [INFO] Coles page 26/153: 48 products (total: 1301)
+2026-03-15 18:38:53,642 [INFO] Coles page 27/153: 48 products (total: 1349)
+2026-03-15 18:38:55,167 [INFO] Coles page 28/153: 48 products (total: 1397)
+2026-03-15 18:38:56,097 [INFO] Coles page 29/153: 48 products (total: 1445)
+2026-03-15 18:38:57,398 [INFO] Coles page 30/153: 48 products (total: 1493)
+2026-03-15 18:38:58,415 [INFO] Coles page 31/153: 48 products (total: 1541)
+2026-03-15 18:38:59,763 [INFO] Coles page 32/153: 48 products (total: 1589)
+2026-03-15 18:39:00,727 [INFO] Coles page 33/153: 46 products (total: 1635)
+2026-03-15 18:39:01,676 [INFO] Coles page 34/153: 48 products (total: 1683)
+2026-03-15 18:39:02,735 [INFO] Coles page 35/153: 48 products (total: 1731)
+2026-03-15 18:39:04,017 [INFO] Coles page 36/153: 48 products (total: 1779)
+2026-03-15 18:39:05,091 [INFO] Coles page 37/153: 45 products (total: 1824)
+2026-03-15 18:39:06,424 [INFO] Coles page 38/153: 46 products (total: 1870)
+2026-03-15 18:39:07,486 [INFO] Coles page 39/153: 46 products (total: 1916)
+2026-03-15 18:39:09,496 [INFO] Coles page 40/153: 46 products (total: 1962)
+2026-03-15 18:39:11,147 [INFO] Coles page 41/153: 46 products (total: 2008)
+2026-03-15 18:39:12,072 [INFO] Coles page 42/153: 48 products (total: 2056)
+2026-03-15 18:39:12,896 [INFO] Coles page 43/153: 48 products (total: 2104)
+2026-03-15 18:39:14,352 [INFO] Coles page 44/153: 47 products (total: 2151)
+2026-03-15 18:39:15,735 [INFO] Coles page 45/153: 48 products (total: 2199)
+2026-03-15 18:39:17,073 [INFO] Coles page 46/153: 46 products (total: 2245)
+2026-03-15 18:39:18,205 [INFO] Coles page 47/153: 48 products (total: 2293)
+2026-03-15 18:39:19,498 [INFO] Coles page 48/153: 48 products (total: 2341)
+2026-03-15 18:39:20,657 [INFO] Coles page 49/153: 48 products (total: 2389)
+2026-03-15 18:39:22,198 [INFO] Coles page 50/153: 48 products (total: 2437)
+2026-03-15 18:39:23,310 [INFO] Coles page 51/153: 48 products (total: 2485)
+2026-03-15 18:39:24,730 [INFO] Coles page 52/153: 48 products (total: 2533)
+2026-03-15 18:39:26,076 [INFO] Coles page 53/153: 48 products (total: 2581)
+2026-03-15 18:39:27,208 [INFO] Coles page 54/153: 48 products (total: 2629)
+2026-03-15 18:39:28,382 [INFO] Coles page 55/153: 47 products (total: 2676)
+2026-03-15 18:39:29,313 [INFO] Coles page 56/153: 47 products (total: 2723)
+2026-03-15 18:39:30,818 [INFO] Coles page 57/153: 48 products (total: 2771)
+2026-03-15 18:39:32,390 [INFO] Coles page 58/153: 47 products (total: 2818)
+2026-03-15 18:39:33,805 [INFO] Coles page 59/153: 47 products (total: 2865)
+2026-03-15 18:39:34,970 [INFO] Coles page 60/153: 48 products (total: 2913)
+2026-03-15 18:39:36,219 [INFO] Coles page 61/153: 48 products (total: 2961)
+2026-03-15 18:39:37,770 [INFO] Coles page 62/153: 47 products (total: 3008)
+2026-03-15 18:39:39,174 [INFO] Coles page 63/153: 48 products (total: 3056)
+2026-03-15 18:39:40,157 [INFO] Coles page 64/153: 48 products (total: 3104)
+2026-03-15 18:39:41,243 [INFO] Coles page 65/153: 48 products (total: 3152)
+2026-03-15 18:39:42,494 [INFO] Coles page 66/153: 48 products (total: 3200)
+2026-03-15 18:39:44,040 [INFO] Coles page 67/153: 48 products (total: 3248)
+2026-03-15 18:39:45,147 [INFO] Coles page 68/153: 48 products (total: 3296)
+2026-03-15 18:39:46,624 [INFO] Coles page 69/153: 48 products (total: 3344)
+2026-03-15 18:39:48,063 [INFO] Coles page 70/153: 48 products (total: 3392)
+2026-03-15 18:39:49,421 [INFO] Coles page 71/153: 48 products (total: 3440)
+2026-03-15 18:39:51,007 [INFO] Coles page 72/153: 47 products (total: 3487)
+2026-03-15 18:39:52,077 [INFO] Coles page 73/153: 48 products (total: 3535)
+2026-03-15 18:39:53,217 [INFO] Coles page 74/153: 48 products (total: 3583)
+2026-03-15 18:39:54,683 [INFO] Coles page 75/153: 48 products (total: 3631)
+2026-03-15 18:39:55,635 [INFO] Coles page 76/153: 47 products (total: 3678)
+2026-03-15 18:39:57,085 [INFO] Coles page 77/153: 48 products (total: 3726)
+2026-03-15 18:39:58,660 [INFO] Coles page 78/153: 47 products (total: 3773)
+2026-03-15 18:39:59,723 [INFO] Coles page 79/153: 48 products (total: 3821)
+2026-03-15 18:40:01,534 [INFO] Coles page 80/153: 47 products (total: 3868)
+2026-03-15 18:40:02,586 [INFO] Coles page 81/153: 47 products (total: 3915)
+2026-03-15 18:40:03,754 [INFO] Coles page 82/153: 48 products (total: 3963)
+2026-03-15 18:40:05,078 [INFO] Coles page 83/153: 46 products (total: 4009)
+2026-03-15 18:40:06,630 [INFO] Coles page 84/153: 47 products (total: 4056)
+2026-03-15 18:40:07,855 [INFO] Coles page 85/153: 48 products (total: 4104)
+2026-03-15 18:40:09,178 [INFO] Coles page 86/153: 47 products (total: 4151)
+2026-03-15 18:40:10,424 [INFO] Coles page 87/153: 48 products (total: 4199)
+2026-03-15 18:40:12,398 [INFO] Coles page 88/153: 48 products (total: 4247)
+2026-03-15 18:40:14,079 [INFO] Coles page 89/153: 47 products (total: 4294)
+2026-03-15 18:40:15,599 [INFO] Coles page 90/153: 47 products (total: 4341)
+2026-03-15 18:40:16,895 [INFO] Coles page 91/153: 47 products (total: 4388)
+2026-03-15 18:40:18,198 [INFO] Coles page 92/153: 48 products (total: 4436)
+2026-03-15 18:40:19,441 [INFO] Coles page 93/153: 48 products (total: 4484)
+2026-03-15 18:40:20,865 [INFO] Coles page 94/153: 47 products (total: 4531)
+2026-03-15 18:40:22,104 [INFO] Coles page 95/153: 48 products (total: 4579)
+2026-03-15 18:40:23,675 [INFO] Coles page 96/153: 48 products (total: 4627)
+2026-03-15 18:40:25,086 [INFO] Coles page 97/153: 48 products (total: 4675)
+2026-03-15 18:40:26,310 [INFO] Coles page 98/153: 47 products (total: 4722)
+2026-03-15 18:40:27,499 [INFO] Coles page 99/153: 47 products (total: 4769)
+2026-03-15 18:40:28,698 [INFO] Coles page 100/153: 48 products (total: 4817)
+2026-03-15 18:40:29,842 [INFO] Coles page 101/153: 48 products (total: 4865)
+2026-03-15 18:40:31,442 [INFO] Coles page 102/153: 48 products (total: 4913)
+2026-03-15 18:40:32,337 [INFO] Coles page 103/153: 48 products (total: 4961)
+2026-03-15 18:40:33,940 [INFO] Coles page 104/153: 47 products (total: 5008)
+2026-03-15 18:40:35,377 [INFO] Coles page 105/153: 48 products (total: 5056)
+2026-03-15 18:40:36,802 [INFO] Coles page 106/153: 48 products (total: 5104)
+2026-03-15 18:40:37,996 [INFO] Coles page 107/153: 48 products (total: 5152)
+2026-03-15 18:40:39,254 [INFO] Coles page 108/153: 47 products (total: 5199)
+2026-03-15 18:40:40,786 [INFO] Coles page 109/153: 46 products (total: 5245)
+2026-03-15 18:40:42,224 [INFO] Coles page 110/153: 48 products (total: 5293)
+2026-03-15 18:40:43,394 [INFO] Coles page 111/153: 48 products (total: 5341)
+2026-03-15 18:40:44,919 [INFO] Coles page 112/153: 48 products (total: 5389)
+2026-03-15 18:40:46,527 [INFO] Coles page 113/153: 48 products (total: 5437)
+2026-03-15 18:40:47,621 [INFO] Coles page 114/153: 47 products (total: 5484)
+2026-03-15 18:40:48,850 [INFO] Coles page 115/153: 47 products (total: 5531)
+2026-03-15 18:40:50,079 [INFO] Coles page 116/153: 48 products (total: 5579)
+2026-03-15 18:40:51,111 [INFO] Coles page 117/153: 47 products (total: 5626)
+2026-03-15 18:40:52,404 [INFO] Coles page 118/153: 47 products (total: 5673)
+2026-03-15 18:40:53,740 [INFO] Coles page 119/153: 48 products (total: 5721)
+2026-03-15 18:40:55,034 [INFO] Coles page 120/153: 48 products (total: 5769)
+2026-03-15 18:40:56,460 [INFO] Coles page 121/153: 46 products (total: 5815)
+2026-03-15 18:40:57,536 [INFO] Coles page 122/153: 48 products (total: 5863)
+2026-03-15 18:40:58,809 [INFO] Coles page 123/153: 48 products (total: 5911)
+2026-03-15 18:41:00,283 [INFO] Coles page 124/153: 47 products (total: 5958)
+2026-03-15 18:41:02,297 [INFO] Coles page 125/153: 48 products (total: 6006)
+2026-03-15 18:41:03,804 [INFO] Coles page 126/153: 48 products (total: 6054)
+2026-03-15 18:41:05,280 [INFO] Coles page 127/153: 48 products (total: 6102)
+2026-03-15 18:41:06,778 [INFO] Coles page 128/153: 48 products (total: 6150)
+2026-03-15 18:41:08,131 [INFO] Coles page 129/153: 48 products (total: 6198)
+2026-03-15 18:41:09,459 [INFO] Coles page 130/153: 47 products (total: 6245)
+2026-03-15 18:41:11,181 [INFO] Coles page 131/153: 48 products (total: 6293)
+2026-03-15 18:41:12,480 [INFO] Coles page 132/153: 48 products (total: 6341)
+2026-03-15 18:41:13,531 [INFO] Coles page 133/153: 48 products (total: 6389)
+2026-03-15 18:41:15,124 [INFO] Coles page 134/153: 48 products (total: 6437)
+2026-03-15 18:41:16,313 [INFO] Coles page 135/153: 48 products (total: 6485)
+2026-03-15 18:41:17,776 [INFO] Coles page 136/153: 47 products (total: 6532)
+2026-03-15 18:41:19,568 [INFO] Coles page 137/153: 47 products (total: 6579)
+2026-03-15 18:41:20,620 [INFO] Coles page 138/153: 48 products (total: 6627)
+2026-03-15 18:41:21,824 [INFO] Coles page 139/153: 48 products (total: 6675)
+2026-03-15 18:41:22,894 [INFO] Coles page 140/153: 48 products (total: 6723)
+2026-03-15 18:41:24,104 [INFO] Coles page 141/153: 48 products (total: 6771)
+2026-03-15 18:41:25,495 [INFO] Coles page 142/153: 47 products (total: 6818)
+2026-03-15 18:41:26,580 [INFO] Coles page 143/153: 48 products (total: 6866)
+2026-03-15 18:41:27,804 [INFO] Coles page 144/153: 48 products (total: 6914)
+2026-03-15 18:41:29,160 [INFO] Coles page 145/153: 48 products (total: 6962)
+2026-03-15 18:41:30,446 [INFO] Coles page 146/153: 47 products (total: 7009)
+2026-03-15 18:41:32,200 [INFO] Coles page 147/153: 48 products (total: 7057)
+2026-03-15 18:41:33,694 [INFO] Coles page 148/153: 48 products (total: 7105)
+2026-03-15 18:41:35,471 [INFO] Coles page 149/153: 46 products (total: 7151)
+2026-03-15 18:41:36,641 [INFO] Coles page 150/153: 48 products (total: 7199)
+2026-03-15 18:41:37,788 [INFO] Coles page 151/153: 48 products (total: 7247)
+2026-03-15 18:41:39,387 [INFO] Coles page 152/153: 48 products (total: 7295)
+2026-03-15 18:41:40,912 [INFO] Coles page 153/153: 45 products (total: 7340)
+2026-03-15 18:41:41,749 [INFO] Coles total: 7340 unique specials, 0 blocked, 0 errors
+2026-03-15 18:41:41,751 [INFO] Coles: 7340 specials, 0 blocked, 0 errors
+2026-03-15 18:41:43,116 [INFO] HTTP Request: DELETE https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?scraped_at=lt.2026-03-15T08%3A38%3A06.192967%2B00%3A00 "HTTP/2 200 OK"
+2026-03-15 18:41:43,685 [INFO] Cleared old specials
+2026-03-15 18:41:43,968 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:43,996 [INFO] Saved chunk 1: 500 records
+2026-03-15 18:41:44,172 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:44,208 [INFO] Saved chunk 2: 500 records
+2026-03-15 18:41:44,350 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:44,377 [INFO] Saved chunk 3: 500 records
+2026-03-15 18:41:44,522 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:44,553 [INFO] Saved chunk 4: 500 records
+2026-03-15 18:41:44,690 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:44,715 [INFO] Saved chunk 5: 500 records
+2026-03-15 18:41:44,847 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:44,871 [INFO] Saved chunk 6: 500 records
+2026-03-15 18:41:44,991 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:45,017 [INFO] Saved chunk 7: 500 records
+2026-03-15 18:41:45,188 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:45,214 [INFO] Saved chunk 8: 500 records
+2026-03-15 18:41:45,418 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:45,467 [INFO] Saved chunk 9: 500 records
+2026-03-15 18:41:45,622 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:45,650 [INFO] Saved chunk 10: 500 records
+2026-03-15 18:41:45,855 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:45,882 [INFO] Saved chunk 11: 500 records
+2026-03-15 18:41:46,037 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:46,068 [INFO] Saved chunk 12: 500 records
+2026-03-15 18:41:46,194 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:46,220 [INFO] Saved chunk 13: 500 records
+2026-03-15 18:41:46,344 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:46,368 [INFO] Saved chunk 14: 500 records
+2026-03-15 18:41:46,499 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22was_price%22%2C%22saving_pct%22%2C%22special_type%22%2C%22saving%22%2C%22thumbnail%22%2C%22category%22%2C%22brand%22%2C%22is_half_price%22%2C%22offer_description%22%2C%22scraped_at%22%2C%22unit_price%22%2C%22stockcode%22%2C%22price%22%2C%22store%22%2C%22name%22 "HTTP/2 201 Created"
+2026-03-15 18:41:46,516 [INFO] Saved chunk 15: 340 records
+2026-03-15 18:41:46,516 [INFO] Total saved to Supabase: 7340
+2026-03-15 18:41:46,575 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/scrape_log "HTTP/2 201 Created"
+2026-03-15 18:41:46,576 [INFO] Scrape run logged to Supabase
+2026-03-15 18:41:46,576 [WARNING] No mail credentials — skipping alert email
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Python313\Lib\logging\__init__.py", line 1154, in emit
+    stream.write(msg + self.terminator)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 31: character maps to <undefined>
+Call stack:
+  File "C:\Users\snatt\Documents\MY_APP_PROJECTS_NEW\smart-basket\scraper\main.py", line 186, in <module>
+    main()
+  File "C:\Users\snatt\Documents\MY_APP_PROJECTS_NEW\smart-basket\scraper\main.py", line 182, in main
+    logger.info(f"\u2705 Done! Woolworths: {w_total}  Coles: {c_total}  Saved: {total_saved}")
+Message: '\u2705 Done! Woolworths: 0  Coles: 7340  Saved: 7340'
+Arguments: ()
+Finished at Sun 15/03/2026 18:41:46.78 

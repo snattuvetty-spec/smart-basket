@@ -1,0 +1,461 @@
+Starting SmartPicks Scraper at Mon 16/03/2026  6:00:01.53 
+2026-03-16 06:00:02,009 [INFO] SmartPicks Scraper starting...
+2026-03-16 06:00:02,009 [INFO] Python version: 3.13.6 (tags/v3.13.6:4e66535, Aug  6 2025, 14:36:00) [MSC v.1944 64 bit (AMD64)]
+2026-03-16 06:00:02,009 [INFO] SUPABASE_URL set: True
+2026-03-16 06:00:02,009 [INFO] SUPABASE_KEY set: True
+2026-03-16 06:00:02,009 [INFO] MAIL_USERNAME set: False
+2026-03-16 06:00:04,413 [INFO] ============================================================
+2026-03-16 06:00:04,413 [INFO] SmartPicks Scraper - Main
+2026-03-16 06:00:04,414 [INFO] ============================================================
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Python313\Lib\logging\__init__.py", line 1154, in emit
+    stream.write(msg + self.terminator)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 53: character maps to <undefined>
+Call stack:
+  File "C:\Users\snatt\Documents\MY_APP_PROJECTS_NEW\smart-basket\scraper\main.py", line 187, in <module>
+    main()
+  File "C:\Users\snatt\Documents\MY_APP_PROJECTS_NEW\smart-basket\scraper\main.py", line 111, in main
+    logger.info("Connected to Supabase \u2705")
+Message: 'Connected to Supabase \u2705'
+Arguments: ()
+2026-03-16 06:00:04,878 [INFO] Scraping Woolworths...
+2026-03-16 06:00:07,305 [INFO] Woolworths 'Half Price' page 1: 42 products (total so far: 42/1708)
+2026-03-16 06:00:08,616 [INFO] Woolworths 'Half Price' page 2: 41 products (total so far: 83/1708)
+2026-03-16 06:00:10,367 [INFO] Woolworths 'Half Price' page 3: 40 products (total so far: 123/1708)
+2026-03-16 06:00:11,788 [INFO] Woolworths 'Half Price' page 4: 35 products (total so far: 158/1708)
+2026-03-16 06:00:13,546 [INFO] Woolworths 'Half Price' page 5: 37 products (total so far: 195/1708)
+2026-03-16 06:00:15,224 [INFO] Woolworths 'Half Price' page 6: 40 products (total so far: 235/1708)
+2026-03-16 06:00:16,788 [INFO] Woolworths 'Half Price' page 7: 33 products (total so far: 268/1708)
+2026-03-16 06:00:18,114 [INFO] Woolworths 'Half Price' page 8: 31 products (total so far: 299/1708)
+2026-03-16 06:00:19,924 [INFO] Woolworths 'Half Price' page 9: 33 products (total so far: 332/1708)
+2026-03-16 06:00:21,593 [INFO] Woolworths 'Half Price' page 10: 34 products (total so far: 366/1708)
+2026-03-16 06:00:23,413 [INFO] Woolworths 'Half Price' page 11: 29 products (total so far: 395/1708)
+2026-03-16 06:00:25,226 [INFO] Woolworths 'Half Price' page 12: 33 products (total so far: 428/1708)
+2026-03-16 06:00:26,914 [INFO] Woolworths 'Half Price' page 13: 34 products (total so far: 462/1708)
+2026-03-16 06:00:28,689 [INFO] Woolworths 'Half Price' page 14: 36 products (total so far: 498/1708)
+2026-03-16 06:00:30,111 [INFO] Woolworths 'Half Price' page 15: 33 products (total so far: 531/1708)
+2026-03-16 06:00:31,600 [INFO] Woolworths 'Half Price' page 16: 33 products (total so far: 564/1708)
+2026-03-16 06:00:33,495 [INFO] Woolworths 'Half Price' page 17: 31 products (total so far: 595/1708)
+2026-03-16 06:00:34,984 [INFO] Woolworths 'Half Price' page 18: 35 products (total so far: 630/1708)
+2026-03-16 06:00:36,414 [INFO] Woolworths 'Half Price' page 19: 35 products (total so far: 665/1708)
+2026-03-16 06:00:38,306 [INFO] Woolworths 'Half Price' page 20: 33 products (total so far: 698/1708)
+2026-03-16 06:00:39,962 [INFO] Woolworths 'Half Price' page 21: 35 products (total so far: 733/1708)
+2026-03-16 06:00:41,800 [INFO] Woolworths 'Half Price' page 22: 32 products (total so far: 765/1708)
+2026-03-16 06:00:43,713 [INFO] Woolworths 'Half Price' page 23: 34 products (total so far: 799/1708)
+2026-03-16 06:00:45,791 [INFO] Woolworths 'Half Price' page 24: 36 products (total so far: 835/1708)
+2026-03-16 06:00:47,158 [INFO] Woolworths 'Half Price' page 25: 34 products (total so far: 869/1708)
+2026-03-16 06:00:48,534 [INFO] Woolworths 'Half Price' page 26: 35 products (total so far: 904/1708)
+2026-03-16 06:00:50,447 [INFO] Woolworths 'Half Price' page 27: 33 products (total so far: 937/1708)
+2026-03-16 06:00:52,365 [INFO] Woolworths 'Half Price' page 28: 34 products (total so far: 971/1708)
+2026-03-16 06:00:54,249 [INFO] Woolworths 'Half Price' page 29: 35 products (total so far: 1006/1708)
+2026-03-16 06:00:55,959 [INFO] Woolworths 'Half Price' page 30: 31 products (total so far: 1037/1708)
+2026-03-16 06:00:57,694 [INFO] Woolworths 'Half Price' page 31: 30 products (total so far: 1067/1708)
+2026-03-16 06:00:59,650 [INFO] Woolworths 'Half Price' page 32: 29 products (total so far: 1096/1708)
+2026-03-16 06:01:01,097 [INFO] Woolworths 'Half Price' page 33: 31 products (total so far: 1127/1708)
+2026-03-16 06:01:02,640 [INFO] Woolworths 'Half Price' page 34: 34 products (total so far: 1161/1708)
+2026-03-16 06:01:04,648 [INFO] Woolworths 'Half Price' page 35: 30 products (total so far: 1191/1708)
+2026-03-16 06:01:06,584 [INFO] Woolworths 'Half Price' page 36: 35 products (total so far: 1226/1708)
+2026-03-16 06:01:08,591 [INFO] Woolworths 'Half Price' page 37: 31 products (total so far: 1257/1708)
+2026-03-16 06:01:10,608 [INFO] Woolworths 'Half Price' page 38: 34 products (total so far: 1291/1708)
+2026-03-16 06:01:12,361 [INFO] Woolworths 'Half Price' page 39: 33 products (total so far: 1324/1708)
+2026-03-16 06:01:14,154 [INFO] Woolworths 'Half Price' page 40: 31 products (total so far: 1355/1708)
+2026-03-16 06:01:15,924 [INFO] Woolworths 'Half Price' page 41: 30 products (total so far: 1385/1708)
+2026-03-16 06:01:17,472 [INFO] Woolworths 'Half Price' page 42: 34 products (total so far: 1419/1708)
+2026-03-16 06:01:19,365 [INFO] Woolworths 'Half Price' page 43: 31 products (total so far: 1450/1708)
+2026-03-16 06:01:21,363 [INFO] Woolworths 'Half Price' page 44: 29 products (total so far: 1479/1708)
+2026-03-16 06:01:22,919 [INFO] Woolworths 'Half Price' page 45: 33 products (total so far: 1512/1708)
+2026-03-16 06:01:24,793 [INFO] Woolworths 'Half Price' page 46: 34 products (total so far: 1546/1708)
+2026-03-16 06:01:26,685 [INFO] Woolworths 'Half Price' page 47: 32 products (total so far: 1578/1708)
+2026-03-16 06:01:28,232 [INFO] Woolworths 'Half Price' page 48: 16 products (total so far: 1594/1708)
+2026-03-16 06:01:28,232 [INFO] Woolworths 'Half Price': 1594 specials scraped
+2026-03-16 06:01:30,236 [INFO] Woolworths 'Lower Shelf Price' page 1: 36 products (total so far: 36/707)
+2026-03-16 06:01:31,613 [INFO] Woolworths 'Lower Shelf Price' page 2: 36 products (total so far: 72/707)
+2026-03-16 06:01:33,285 [INFO] Woolworths 'Lower Shelf Price' page 3: 36 products (total so far: 108/707)
+2026-03-16 06:01:35,051 [INFO] Woolworths 'Lower Shelf Price' page 4: 35 products (total so far: 143/707)
+2026-03-16 06:01:36,651 [INFO] Woolworths 'Lower Shelf Price' page 5: 36 products (total so far: 179/707)
+2026-03-16 06:01:38,279 [INFO] Woolworths 'Lower Shelf Price' page 6: 35 products (total so far: 214/707)
+2026-03-16 06:01:39,868 [INFO] Woolworths 'Lower Shelf Price' page 7: 35 products (total so far: 249/707)
+2026-03-16 06:01:41,391 [INFO] Woolworths 'Lower Shelf Price' page 8: 35 products (total so far: 284/707)
+2026-03-16 06:01:43,132 [INFO] Woolworths 'Lower Shelf Price' page 9: 36 products (total so far: 320/707)
+2026-03-16 06:01:44,628 [INFO] Woolworths 'Lower Shelf Price' page 10: 35 products (total so far: 355/707)
+2026-03-16 06:01:46,512 [INFO] Woolworths 'Lower Shelf Price' page 11: 35 products (total so far: 390/707)
+2026-03-16 06:01:48,281 [INFO] Woolworths 'Lower Shelf Price' page 12: 34 products (total so far: 424/707)
+2026-03-16 06:01:50,213 [INFO] Woolworths 'Lower Shelf Price' page 13: 35 products (total so far: 459/707)
+2026-03-16 06:01:51,783 [INFO] Woolworths 'Lower Shelf Price' page 14: 34 products (total so far: 493/707)
+2026-03-16 06:01:53,770 [INFO] Woolworths 'Lower Shelf Price' page 15: 34 products (total so far: 527/707)
+2026-03-16 06:01:55,736 [INFO] Woolworths 'Lower Shelf Price' page 16: 36 products (total so far: 563/707)
+2026-03-16 06:01:57,466 [INFO] Woolworths 'Lower Shelf Price' page 17: 35 products (total so far: 598/707)
+2026-03-16 06:01:59,407 [INFO] Woolworths 'Lower Shelf Price' page 18: 35 products (total so far: 633/707)
+2026-03-16 06:02:01,067 [INFO] Woolworths 'Lower Shelf Price' page 19: 36 products (total so far: 669/707)
+2026-03-16 06:02:02,591 [INFO] Woolworths 'Lower Shelf Price' page 20: 23 products (total so far: 692/707)
+2026-03-16 06:02:02,591 [INFO] Woolworths 'Lower Shelf Price': 692 specials scraped
+2026-03-16 06:02:05,364 [INFO] Woolworths 'Everyday Low Price' page 1: 44 products (total so far: 44/2850)
+2026-03-16 06:02:07,025 [INFO] Woolworths 'Everyday Low Price' page 2: 44 products (total so far: 88/2850)
+2026-03-16 06:02:08,801 [INFO] Woolworths 'Everyday Low Price' page 3: 43 products (total so far: 131/2850)
+2026-03-16 06:02:10,604 [INFO] Woolworths 'Everyday Low Price' page 4: 44 products (total so far: 175/2850)
+2026-03-16 06:02:12,265 [INFO] Woolworths 'Everyday Low Price' page 5: 42 products (total so far: 217/2850)
+2026-03-16 06:02:14,328 [INFO] Woolworths 'Everyday Low Price' page 6: 43 products (total so far: 260/2850)
+2026-03-16 06:02:16,258 [INFO] Woolworths 'Everyday Low Price' page 7: 35 products (total so far: 295/2850)
+2026-03-16 06:02:18,123 [INFO] Woolworths 'Everyday Low Price' page 8: 35 products (total so far: 330/2850)
+2026-03-16 06:02:20,064 [INFO] Woolworths 'Everyday Low Price' page 9: 35 products (total so far: 365/2850)
+2026-03-16 06:02:22,074 [INFO] Woolworths 'Everyday Low Price' page 10: 34 products (total so far: 399/2850)
+2026-03-16 06:02:23,789 [INFO] Woolworths 'Everyday Low Price' page 11: 35 products (total so far: 434/2850)
+2026-03-16 06:02:25,951 [INFO] Woolworths 'Everyday Low Price' page 12: 35 products (total so far: 469/2850)
+2026-03-16 06:02:27,503 [INFO] Woolworths 'Everyday Low Price' page 13: 36 products (total so far: 505/2850)
+2026-03-16 06:02:28,896 [INFO] Woolworths 'Everyday Low Price' page 14: 36 products (total so far: 541/2850)
+2026-03-16 06:02:30,558 [INFO] Woolworths 'Everyday Low Price' page 15: 35 products (total so far: 576/2850)
+2026-03-16 06:02:32,498 [INFO] Woolworths 'Everyday Low Price' page 16: 34 products (total so far: 610/2850)
+2026-03-16 06:02:34,577 [INFO] Woolworths 'Everyday Low Price' page 17: 35 products (total so far: 645/2850)
+2026-03-16 06:02:36,551 [INFO] Woolworths 'Everyday Low Price' page 18: 35 products (total so far: 680/2850)
+2026-03-16 06:02:38,395 [INFO] Woolworths 'Everyday Low Price' page 19: 34 products (total so far: 714/2850)
+2026-03-16 06:02:40,015 [INFO] Woolworths 'Everyday Low Price' page 20: 33 products (total so far: 747/2850)
+2026-03-16 06:02:41,740 [INFO] Woolworths 'Everyday Low Price' page 21: 35 products (total so far: 782/2850)
+2026-03-16 06:02:43,689 [INFO] Woolworths 'Everyday Low Price' page 22: 35 products (total so far: 817/2850)
+2026-03-16 06:02:45,622 [INFO] Woolworths 'Everyday Low Price' page 23: 34 products (total so far: 851/2850)
+2026-03-16 06:02:47,703 [INFO] Woolworths 'Everyday Low Price' page 24: 36 products (total so far: 887/2850)
+2026-03-16 06:02:49,258 [INFO] Woolworths 'Everyday Low Price' page 25: 35 products (total so far: 922/2850)
+2026-03-16 06:02:50,930 [INFO] Woolworths 'Everyday Low Price' page 26: 35 products (total so far: 957/2850)
+2026-03-16 06:02:52,458 [INFO] Woolworths 'Everyday Low Price' page 27: 36 products (total so far: 993/2850)
+2026-03-16 06:02:54,244 [INFO] Woolworths 'Everyday Low Price' page 28: 34 products (total so far: 1027/2850)
+2026-03-16 06:02:55,836 [INFO] Woolworths 'Everyday Low Price' page 29: 36 products (total so far: 1063/2850)
+2026-03-16 06:02:57,483 [INFO] Woolworths 'Everyday Low Price' page 30: 36 products (total so far: 1099/2850)
+2026-03-16 06:02:58,952 [INFO] Woolworths 'Everyday Low Price' page 31: 36 products (total so far: 1135/2850)
+2026-03-16 06:03:00,920 [INFO] Woolworths 'Everyday Low Price' page 32: 33 products (total so far: 1168/2850)
+2026-03-16 06:03:02,484 [INFO] Woolworths 'Everyday Low Price' page 33: 35 products (total so far: 1203/2850)
+2026-03-16 06:03:04,330 [INFO] Woolworths 'Everyday Low Price' page 34: 35 products (total so far: 1238/2850)
+2026-03-16 06:03:06,480 [INFO] Woolworths 'Everyday Low Price' page 35: 33 products (total so far: 1271/2850)
+2026-03-16 06:03:08,515 [INFO] Woolworths 'Everyday Low Price' page 36: 33 products (total so far: 1304/2850)
+2026-03-16 06:03:10,313 [INFO] Woolworths 'Everyday Low Price' page 37: 32 products (total so far: 1336/2850)
+2026-03-16 06:03:11,794 [INFO] Woolworths 'Everyday Low Price' page 38: 36 products (total so far: 1372/2850)
+2026-03-16 06:03:13,481 [INFO] Woolworths 'Everyday Low Price' page 39: 34 products (total so far: 1406/2850)
+2026-03-16 06:03:15,062 [INFO] Woolworths 'Everyday Low Price' page 40: 35 products (total so far: 1441/2850)
+2026-03-16 06:03:17,132 [INFO] Woolworths 'Everyday Low Price' page 41: 35 products (total so far: 1476/2850)
+2026-03-16 06:03:19,234 [INFO] Woolworths 'Everyday Low Price' page 42: 36 products (total so far: 1512/2850)
+2026-03-16 06:03:20,896 [INFO] Woolworths 'Everyday Low Price' page 43: 33 products (total so far: 1545/2850)
+2026-03-16 06:03:22,505 [INFO] Woolworths 'Everyday Low Price' page 44: 35 products (total so far: 1580/2850)
+2026-03-16 06:03:24,417 [INFO] Woolworths 'Everyday Low Price' page 45: 35 products (total so far: 1615/2850)
+2026-03-16 06:03:26,444 [INFO] Woolworths 'Everyday Low Price' page 46: 34 products (total so far: 1649/2850)
+2026-03-16 06:03:28,464 [INFO] Woolworths 'Everyday Low Price' page 47: 36 products (total so far: 1685/2850)
+2026-03-16 06:03:30,271 [INFO] Woolworths 'Everyday Low Price' page 48: 36 products (total so far: 1721/2850)
+2026-03-16 06:03:32,268 [INFO] Woolworths 'Everyday Low Price' page 49: 32 products (total so far: 1753/2850)
+2026-03-16 06:03:34,151 [INFO] Woolworths 'Everyday Low Price' page 50: 35 products (total so far: 1788/2850)
+2026-03-16 06:03:35,896 [INFO] Woolworths 'Everyday Low Price' page 51: 36 products (total so far: 1824/2850)
+2026-03-16 06:03:37,593 [INFO] Woolworths 'Everyday Low Price' page 52: 33 products (total so far: 1857/2850)
+2026-03-16 06:03:39,373 [INFO] Woolworths 'Everyday Low Price' page 53: 33 products (total so far: 1890/2850)
+2026-03-16 06:03:41,073 [INFO] Woolworths 'Everyday Low Price' page 54: 36 products (total so far: 1926/2850)
+2026-03-16 06:03:42,595 [INFO] Woolworths 'Everyday Low Price' page 55: 35 products (total so far: 1961/2850)
+2026-03-16 06:03:44,410 [INFO] Woolworths 'Everyday Low Price' page 56: 35 products (total so far: 1996/2850)
+2026-03-16 06:03:46,554 [INFO] Woolworths 'Everyday Low Price' page 57: 33 products (total so far: 2029/2850)
+2026-03-16 06:03:48,331 [INFO] Woolworths 'Everyday Low Price' page 58: 32 products (total so far: 2061/2850)
+2026-03-16 06:03:50,429 [INFO] Woolworths 'Everyday Low Price' page 59: 34 products (total so far: 2095/2850)
+2026-03-16 06:03:52,187 [INFO] Woolworths 'Everyday Low Price' page 60: 35 products (total so far: 2130/2850)
+2026-03-16 06:03:53,678 [INFO] Woolworths 'Everyday Low Price' page 61: 34 products (total so far: 2164/2850)
+2026-03-16 06:03:56,027 [INFO] Woolworths 'Everyday Low Price' page 62: 33 products (total so far: 2197/2850)
+2026-03-16 06:03:57,856 [INFO] Woolworths 'Everyday Low Price' page 63: 33 products (total so far: 2230/2850)
+2026-03-16 06:03:59,560 [INFO] Woolworths 'Everyday Low Price' page 64: 32 products (total so far: 2262/2850)
+2026-03-16 06:04:01,515 [INFO] Woolworths 'Everyday Low Price' page 65: 34 products (total so far: 2296/2850)
+2026-03-16 06:04:03,272 [INFO] Woolworths 'Everyday Low Price' page 66: 35 products (total so far: 2331/2850)
+2026-03-16 06:04:04,917 [INFO] Woolworths 'Everyday Low Price' page 67: 35 products (total so far: 2366/2850)
+2026-03-16 06:04:07,123 [INFO] Woolworths 'Everyday Low Price' page 68: 35 products (total so far: 2401/2850)
+2026-03-16 06:04:08,937 [INFO] Woolworths 'Everyday Low Price' page 69: 33 products (total so far: 2434/2850)
+2026-03-16 06:04:10,501 [INFO] Woolworths 'Everyday Low Price' page 70: 35 products (total so far: 2469/2850)
+2026-03-16 06:04:12,571 [INFO] Woolworths 'Everyday Low Price' page 71: 35 products (total so far: 2504/2850)
+2026-03-16 06:04:14,567 [INFO] Woolworths 'Everyday Low Price' page 72: 36 products (total so far: 2540/2850)
+2026-03-16 06:04:16,584 [INFO] Woolworths 'Everyday Low Price' page 73: 33 products (total so far: 2573/2850)
+2026-03-16 06:04:18,062 [INFO] Woolworths 'Everyday Low Price' page 74: 34 products (total so far: 2607/2850)
+2026-03-16 06:04:20,363 [INFO] Woolworths 'Everyday Low Price' page 75: 32 products (total so far: 2639/2850)
+2026-03-16 06:04:22,488 [INFO] Woolworths 'Everyday Low Price' page 76: 36 products (total so far: 2675/2850)
+2026-03-16 06:04:24,084 [INFO] Woolworths 'Everyday Low Price' page 77: 34 products (total so far: 2709/2850)
+2026-03-16 06:04:25,538 [INFO] Woolworths 'Everyday Low Price' page 78: 34 products (total so far: 2743/2850)
+2026-03-16 06:04:27,533 [INFO] Woolworths 'Everyday Low Price' page 79: 32 products (total so far: 2775/2850)
+2026-03-16 06:04:29,443 [INFO] Woolworths 'Everyday Low Price' page 80: 1 products (total so far: 2776/2850)
+2026-03-16 06:04:29,443 [INFO] Woolworths 'Everyday Low Price': 2776 specials scraped
+2026-03-16 06:04:31,424 [INFO] Woolworths 'Autumn Price' page 1: 41 products (total so far: 41/431)
+2026-03-16 06:04:33,538 [INFO] Woolworths 'Autumn Price' page 2: 42 products (total so far: 83/431)
+2026-03-16 06:04:35,631 [INFO] Woolworths 'Autumn Price' page 3: 39 products (total so far: 122/431)
+2026-03-16 06:04:37,214 [INFO] Woolworths 'Autumn Price' page 4: 39 products (total so far: 161/431)
+2026-03-16 06:04:39,148 [INFO] Woolworths 'Autumn Price' page 5: 31 products (total so far: 192/431)
+2026-03-16 06:04:40,971 [INFO] Woolworths 'Autumn Price' page 6: 30 products (total so far: 222/431)
+2026-03-16 06:04:42,987 [INFO] Woolworths 'Autumn Price' page 7: 30 products (total so far: 252/431)
+2026-03-16 06:04:44,740 [INFO] Woolworths 'Autumn Price' page 8: 34 products (total so far: 286/431)
+2026-03-16 06:04:46,775 [INFO] Woolworths 'Autumn Price' page 9: 33 products (total so far: 319/431)
+2026-03-16 06:04:48,390 [INFO] Woolworths 'Autumn Price' page 10: 31 products (total so far: 350/431)
+2026-03-16 06:04:50,337 [INFO] Woolworths 'Autumn Price' page 11: 34 products (total so far: 384/431)
+2026-03-16 06:04:52,048 [INFO] Woolworths 'Autumn Price' page 12: 32 products (total so far: 416/431)
+2026-03-16 06:04:52,049 [INFO] Woolworths 'Autumn Price': 416 specials scraped
+2026-03-16 06:04:54,211 [INFO] Woolworths 'Buy More Save More' page 1: 40 products (total so far: 40/942)
+2026-03-16 06:04:56,474 [INFO] Woolworths 'Buy More Save More' page 2: 38 products (total so far: 78/942)
+2026-03-16 06:04:58,505 [INFO] Woolworths 'Buy More Save More' page 3: 43 products (total so far: 121/942)
+2026-03-16 06:05:00,287 [INFO] Woolworths 'Buy More Save More' page 4: 43 products (total so far: 164/942)
+2026-03-16 06:05:01,985 [INFO] Woolworths 'Buy More Save More' page 5: 40 products (total so far: 204/942)
+2026-03-16 06:05:04,038 [INFO] Woolworths 'Buy More Save More' page 6: 40 products (total so far: 244/942)
+2026-03-16 06:05:05,906 [INFO] Woolworths 'Buy More Save More' page 7: 34 products (total so far: 278/942)
+2026-03-16 06:05:07,680 [INFO] Woolworths 'Buy More Save More' page 8: 33 products (total so far: 311/942)
+2026-03-16 06:05:09,676 [INFO] Woolworths 'Buy More Save More' page 9: 32 products (total so far: 343/942)
+2026-03-16 06:05:11,182 [INFO] Woolworths 'Buy More Save More' page 10: 34 products (total so far: 377/942)
+2026-03-16 06:05:13,162 [INFO] Woolworths 'Buy More Save More' page 11: 34 products (total so far: 411/942)
+2026-03-16 06:05:14,666 [INFO] Woolworths 'Buy More Save More' page 12: 33 products (total so far: 444/942)
+2026-03-16 06:05:16,358 [INFO] Woolworths 'Buy More Save More' page 13: 33 products (total so far: 477/942)
+2026-03-16 06:05:17,795 [INFO] Woolworths 'Buy More Save More' page 14: 34 products (total so far: 511/942)
+2026-03-16 06:05:19,286 [INFO] Woolworths 'Buy More Save More' page 15: 32 products (total so far: 543/942)
+2026-03-16 06:05:21,095 [INFO] Woolworths 'Buy More Save More' page 16: 34 products (total so far: 577/942)
+2026-03-16 06:05:22,866 [INFO] Woolworths 'Buy More Save More' page 17: 33 products (total so far: 610/942)
+2026-03-16 06:05:24,651 [INFO] Woolworths 'Buy More Save More' page 18: 33 products (total so far: 643/942)
+2026-03-16 06:05:26,302 [INFO] Woolworths 'Buy More Save More' page 19: 33 products (total so far: 676/942)
+2026-03-16 06:05:28,205 [INFO] Woolworths 'Buy More Save More' page 20: 35 products (total so far: 711/942)
+2026-03-16 06:05:30,158 [INFO] Woolworths 'Buy More Save More' page 21: 35 products (total so far: 746/942)
+2026-03-16 06:05:31,732 [INFO] Woolworths 'Buy More Save More' page 22: 33 products (total so far: 779/942)
+2026-03-16 06:05:33,806 [INFO] Woolworths 'Buy More Save More' page 23: 34 products (total so far: 813/942)
+2026-03-16 06:05:35,785 [INFO] Woolworths 'Buy More Save More' page 24: 33 products (total so far: 846/942)
+2026-03-16 06:05:37,561 [INFO] Woolworths 'Buy More Save More' page 25: 32 products (total so far: 878/942)
+2026-03-16 06:05:39,117 [INFO] Woolworths 'Buy More Save More' page 26: 30 products (total so far: 908/942)
+2026-03-16 06:05:40,750 [INFO] Woolworths 'Buy More Save More' page 27: 5 products (total so far: 913/942)
+2026-03-16 06:05:40,750 [INFO] Woolworths 'Buy More Save More': 913 specials scraped
+2026-03-16 06:05:42,590 [INFO] Woolworths 'Specials' page 1: 0 products (total so far: 0/0)
+2026-03-16 06:05:42,591 [INFO] Woolworths 'Specials': 0 specials scraped
+2026-03-16 06:05:44,162 [INFO] Woolworths 'Save Now' page 1: 0 products (total so far: 0/0)
+2026-03-16 06:05:44,163 [INFO] Woolworths 'Save Now': 0 specials scraped
+2026-03-16 06:05:45,923 [INFO] Woolworths total: 6391 unique specials, 0 blocked, 0 errors
+2026-03-16 06:05:45,929 [INFO] Woolworths: 6391 specials, 0 blocked, 0 errors
+2026-03-16 06:05:45,929 [INFO] Scraping Coles...
+2026-03-16 06:05:46,944 [INFO] Coles buildId: 20260310.4-d51173fab603623c68e557a054992d8939a1a9e7
+2026-03-16 06:05:48,225 [INFO] Coles: 7349 specials across 154 pages (pageSize=48)
+2026-03-16 06:05:48,225 [INFO] Coles page 1: 56 products
+2026-03-16 06:05:48,724 [INFO] Coles page 2/154: 57 products (total: 113)
+2026-03-16 06:05:49,789 [INFO] Coles page 3/154: 58 products (total: 171)
+2026-03-16 06:05:51,026 [INFO] Coles page 4/154: 55 products (total: 226)
+2026-03-16 06:05:52,436 [INFO] Coles page 5/154: 57 products (total: 283)
+2026-03-16 06:05:53,652 [INFO] Coles page 6/154: 58 products (total: 341)
+2026-03-16 06:05:54,658 [INFO] Coles page 7/154: 48 products (total: 389)
+2026-03-16 06:05:55,658 [INFO] Coles page 8/154: 48 products (total: 437)
+2026-03-16 06:05:56,530 [INFO] Coles page 9/154: 48 products (total: 485)
+2026-03-16 06:05:57,402 [INFO] Coles page 10/154: 48 products (total: 533)
+2026-03-16 06:05:58,914 [INFO] Coles page 11/154: 48 products (total: 581)
+2026-03-16 06:05:59,876 [INFO] Coles page 12/154: 48 products (total: 629)
+2026-03-16 06:06:01,256 [INFO] Coles page 13/154: 48 products (total: 677)
+2026-03-16 06:06:02,296 [INFO] Coles page 14/154: 48 products (total: 725)
+2026-03-16 06:06:03,520 [INFO] Coles page 15/154: 48 products (total: 773)
+2026-03-16 06:06:04,706 [INFO] Coles page 16/154: 48 products (total: 821)
+2026-03-16 06:06:06,007 [INFO] Coles page 17/154: 48 products (total: 869)
+2026-03-16 06:06:07,269 [INFO] Coles page 18/154: 48 products (total: 917)
+2026-03-16 06:06:08,565 [INFO] Coles page 19/154: 48 products (total: 965)
+2026-03-16 06:06:09,752 [INFO] Coles page 20/154: 48 products (total: 1013)
+2026-03-16 06:06:11,435 [INFO] Coles page 21/154: 48 products (total: 1061)
+2026-03-16 06:06:12,562 [INFO] Coles page 22/154: 48 products (total: 1109)
+2026-03-16 06:06:14,020 [INFO] Coles page 23/154: 48 products (total: 1157)
+2026-03-16 06:06:15,087 [INFO] Coles page 24/154: 48 products (total: 1205)
+2026-03-16 06:06:15,822 [INFO] Coles page 25/154: 48 products (total: 1253)
+2026-03-16 06:06:17,283 [INFO] Coles page 26/154: 48 products (total: 1301)
+2026-03-16 06:06:18,376 [INFO] Coles page 27/154: 48 products (total: 1349)
+2026-03-16 06:06:19,589 [INFO] Coles page 28/154: 48 products (total: 1397)
+2026-03-16 06:06:20,851 [INFO] Coles page 29/154: 48 products (total: 1445)
+2026-03-16 06:06:21,861 [INFO] Coles page 30/154: 48 products (total: 1493)
+2026-03-16 06:06:23,348 [INFO] Coles page 31/154: 48 products (total: 1541)
+2026-03-16 06:06:24,998 [INFO] Coles page 32/154: 48 products (total: 1589)
+2026-03-16 06:06:25,992 [INFO] Coles page 33/154: 48 products (total: 1637)
+2026-03-16 06:06:27,108 [INFO] Coles page 34/154: 46 products (total: 1683)
+2026-03-16 06:06:28,634 [INFO] Coles page 35/154: 47 products (total: 1730)
+2026-03-16 06:06:29,714 [INFO] Coles page 36/154: 48 products (total: 1778)
+2026-03-16 06:06:31,171 [INFO] Coles page 37/154: 45 products (total: 1823)
+2026-03-16 06:06:32,283 [INFO] Coles page 38/154: 44 products (total: 1867)
+2026-03-16 06:06:33,681 [INFO] Coles page 39/154: 48 products (total: 1915)
+2026-03-16 06:06:35,023 [INFO] Coles page 40/154: 47 products (total: 1962)
+2026-03-16 06:06:35,987 [INFO] Coles page 41/154: 47 products (total: 2009)
+2026-03-16 06:06:37,315 [INFO] Coles page 42/154: 47 products (total: 2056)
+2026-03-16 06:06:38,555 [INFO] Coles page 43/154: 48 products (total: 2104)
+2026-03-16 06:06:39,405 [INFO] Coles page 44/154: 47 products (total: 2151)
+2026-03-16 06:06:40,979 [INFO] Coles page 45/154: 47 products (total: 2198)
+2026-03-16 06:06:42,427 [INFO] Coles page 46/154: 47 products (total: 2245)
+2026-03-16 06:06:43,484 [INFO] Coles page 47/154: 47 products (total: 2292)
+2026-03-16 06:06:45,011 [INFO] Coles page 48/154: 48 products (total: 2340)
+2026-03-16 06:06:46,504 [INFO] Coles page 49/154: 48 products (total: 2388)
+2026-03-16 06:06:47,533 [INFO] Coles page 50/154: 48 products (total: 2436)
+2026-03-16 06:06:48,492 [INFO] Coles page 51/154: 48 products (total: 2484)
+2026-03-16 06:06:49,427 [INFO] Coles page 52/154: 48 products (total: 2532)
+2026-03-16 06:06:50,724 [INFO] Coles page 53/154: 48 products (total: 2580)
+2026-03-16 06:06:52,311 [INFO] Coles page 54/154: 48 products (total: 2628)
+2026-03-16 06:06:53,868 [INFO] Coles page 55/154: 47 products (total: 2675)
+2026-03-16 06:06:55,104 [INFO] Coles page 56/154: 47 products (total: 2722)
+2026-03-16 06:06:56,450 [INFO] Coles page 57/154: 48 products (total: 2770)
+2026-03-16 06:06:57,567 [INFO] Coles page 58/154: 47 products (total: 2817)
+2026-03-16 06:06:58,685 [INFO] Coles page 59/154: 48 products (total: 2865)
+2026-03-16 06:06:59,810 [INFO] Coles page 60/154: 48 products (total: 2913)
+2026-03-16 06:07:01,596 [INFO] Coles page 61/154: 48 products (total: 2961)
+2026-03-16 06:07:03,260 [INFO] Coles page 62/154: 48 products (total: 3009)
+2026-03-16 06:07:04,778 [INFO] Coles page 63/154: 47 products (total: 3056)
+2026-03-16 06:07:06,072 [INFO] Coles page 64/154: 48 products (total: 3104)
+2026-03-16 06:07:07,887 [INFO] Coles page 65/154: 48 products (total: 3152)
+2026-03-16 06:07:09,192 [INFO] Coles page 66/154: 48 products (total: 3200)
+2026-03-16 06:07:10,645 [INFO] Coles page 67/154: 48 products (total: 3248)
+2026-03-16 06:07:11,660 [INFO] Coles page 68/154: 48 products (total: 3296)
+2026-03-16 06:07:12,785 [INFO] Coles page 69/154: 48 products (total: 3344)
+2026-03-16 06:07:13,733 [INFO] Coles page 70/154: 48 products (total: 3392)
+2026-03-16 06:07:14,695 [INFO] Coles page 71/154: 48 products (total: 3440)
+2026-03-16 06:07:15,637 [INFO] Coles page 72/154: 47 products (total: 3487)
+2026-03-16 06:07:17,147 [INFO] Coles page 73/154: 48 products (total: 3535)
+2026-03-16 06:07:18,009 [INFO] Coles page 74/154: 47 products (total: 3582)
+2026-03-16 06:07:19,212 [INFO] Coles page 75/154: 48 products (total: 3630)
+2026-03-16 06:07:20,513 [INFO] Coles page 76/154: 46 products (total: 3676)
+2026-03-16 06:07:21,621 [INFO] Coles page 77/154: 48 products (total: 3724)
+2026-03-16 06:07:22,555 [INFO] Coles page 78/154: 45 products (total: 3769)
+2026-03-16 06:07:23,886 [INFO] Coles page 79/154: 47 products (total: 3816)
+2026-03-16 06:07:24,739 [INFO] Coles page 80/154: 48 products (total: 3864)
+2026-03-16 06:07:25,662 [INFO] Coles page 81/154: 47 products (total: 3911)
+2026-03-16 06:07:26,919 [INFO] Coles page 82/154: 47 products (total: 3958)
+2026-03-16 06:07:28,058 [INFO] Coles page 83/154: 47 products (total: 4005)
+2026-03-16 06:07:28,919 [INFO] Coles page 84/154: 48 products (total: 4053)
+2026-03-16 06:07:30,817 [INFO] Coles page 85/154: 48 products (total: 4101)
+2026-03-16 06:07:32,010 [INFO] Coles page 86/154: 47 products (total: 4148)
+2026-03-16 06:07:33,347 [INFO] Coles page 87/154: 48 products (total: 4196)
+2026-03-16 06:07:34,418 [INFO] Coles page 88/154: 47 products (total: 4243)
+2026-03-16 06:07:35,522 [INFO] Coles page 89/154: 46 products (total: 4289)
+2026-03-16 06:07:37,209 [INFO] Coles page 90/154: 48 products (total: 4337)
+2026-03-16 06:07:38,452 [INFO] Coles page 91/154: 48 products (total: 4385)
+2026-03-16 06:07:40,001 [INFO] Coles page 92/154: 48 products (total: 4433)
+2026-03-16 06:07:40,885 [INFO] Coles page 93/154: 46 products (total: 4479)
+2026-03-16 06:07:42,365 [INFO] Coles page 94/154: 47 products (total: 4526)
+2026-03-16 06:07:43,800 [INFO] Coles page 95/154: 47 products (total: 4573)
+2026-03-16 06:07:44,855 [INFO] Coles page 96/154: 48 products (total: 4621)
+2026-03-16 06:07:46,416 [INFO] Coles page 97/154: 46 products (total: 4667)
+2026-03-16 06:07:47,565 [INFO] Coles page 98/154: 47 products (total: 4714)
+2026-03-16 06:07:49,327 [INFO] Coles page 99/154: 47 products (total: 4761)
+2026-03-16 06:07:50,396 [INFO] Coles page 100/154: 48 products (total: 4809)
+2026-03-16 06:07:51,731 [INFO] Coles page 101/154: 47 products (total: 4856)
+2026-03-16 06:07:53,035 [INFO] Coles page 102/154: 48 products (total: 4904)
+2026-03-16 06:07:53,951 [INFO] Coles page 103/154: 48 products (total: 4952)
+2026-03-16 06:07:54,804 [INFO] Coles page 104/154: 48 products (total: 5000)
+2026-03-16 06:07:56,399 [INFO] Coles page 105/154: 47 products (total: 5047)
+2026-03-16 06:07:57,807 [INFO] Coles page 106/154: 48 products (total: 5095)
+2026-03-16 06:07:59,301 [INFO] Coles page 107/154: 48 products (total: 5143)
+2026-03-16 06:08:00,798 [INFO] Coles page 108/154: 48 products (total: 5191)
+2026-03-16 06:08:01,805 [INFO] Coles page 109/154: 47 products (total: 5238)
+2026-03-16 06:08:02,907 [INFO] Coles page 110/154: 47 products (total: 5285)
+2026-03-16 06:08:04,343 [INFO] Coles page 111/154: 48 products (total: 5333)
+2026-03-16 06:08:05,347 [INFO] Coles page 112/154: 48 products (total: 5381)
+2026-03-16 06:08:06,561 [INFO] Coles page 113/154: 46 products (total: 5427)
+2026-03-16 06:08:07,698 [INFO] Coles page 114/154: 47 products (total: 5474)
+2026-03-16 06:08:09,027 [INFO] Coles page 115/154: 48 products (total: 5522)
+2026-03-16 06:08:10,290 [INFO] Coles page 116/154: 48 products (total: 5570)
+2026-03-16 06:08:11,815 [INFO] Coles page 117/154: 48 products (total: 5618)
+2026-03-16 06:08:13,138 [INFO] Coles page 118/154: 48 products (total: 5666)
+2026-03-16 06:08:14,387 [INFO] Coles page 119/154: 48 products (total: 5714)
+2026-03-16 06:08:16,105 [INFO] Coles page 120/154: 47 products (total: 5761)
+2026-03-16 06:08:17,523 [INFO] Coles page 121/154: 48 products (total: 5809)
+2026-03-16 06:08:18,570 [INFO] Coles page 122/154: 48 products (total: 5857)
+2026-03-16 06:08:19,852 [INFO] Coles page 123/154: 48 products (total: 5905)
+2026-03-16 06:08:21,495 [INFO] Coles page 124/154: 48 products (total: 5953)
+2026-03-16 06:08:22,893 [INFO] Coles page 125/154: 48 products (total: 6001)
+2026-03-16 06:08:24,007 [INFO] Coles page 126/154: 48 products (total: 6049)
+2026-03-16 06:08:24,976 [INFO] Coles page 127/154: 48 products (total: 6097)
+2026-03-16 06:08:25,999 [INFO] Coles page 128/154: 48 products (total: 6145)
+2026-03-16 06:08:26,884 [INFO] Coles page 129/154: 48 products (total: 6193)
+2026-03-16 06:08:28,120 [INFO] Coles page 130/154: 48 products (total: 6241)
+2026-03-16 06:08:29,034 [INFO] Coles page 131/154: 48 products (total: 6289)
+2026-03-16 06:08:29,998 [INFO] Coles page 132/154: 48 products (total: 6337)
+2026-03-16 06:08:31,281 [INFO] Coles page 133/154: 48 products (total: 6385)
+2026-03-16 06:08:32,614 [INFO] Coles page 134/154: 48 products (total: 6433)
+2026-03-16 06:08:33,740 [INFO] Coles page 135/154: 48 products (total: 6481)
+2026-03-16 06:08:34,778 [INFO] Coles page 136/154: 47 products (total: 6528)
+2026-03-16 06:08:36,191 [INFO] Coles page 137/154: 48 products (total: 6576)
+2026-03-16 06:08:37,177 [INFO] Coles page 138/154: 47 products (total: 6623)
+2026-03-16 06:08:38,016 [INFO] Coles page 139/154: 48 products (total: 6671)
+2026-03-16 06:08:39,016 [INFO] Coles page 140/154: 48 products (total: 6719)
+2026-03-16 06:08:40,227 [INFO] Coles page 141/154: 48 products (total: 6767)
+2026-03-16 06:08:41,528 [INFO] Coles page 142/154: 48 products (total: 6815)
+2026-03-16 06:08:42,647 [INFO] Coles page 143/154: 48 products (total: 6863)
+2026-03-16 06:08:43,776 [INFO] Coles page 144/154: 48 products (total: 6911)
+2026-03-16 06:08:45,111 [INFO] Coles page 145/154: 48 products (total: 6959)
+2026-03-16 06:08:46,522 [INFO] Coles page 146/154: 48 products (total: 7007)
+2026-03-16 06:08:47,464 [INFO] Coles page 147/154: 48 products (total: 7055)
+2026-03-16 06:08:48,883 [INFO] Coles page 148/154: 48 products (total: 7103)
+2026-03-16 06:08:50,480 [INFO] Coles page 149/154: 48 products (total: 7151)
+2026-03-16 06:08:51,816 [INFO] Coles page 150/154: 48 products (total: 7199)
+2026-03-16 06:08:53,300 [INFO] Coles page 151/154: 48 products (total: 7247)
+2026-03-16 06:08:54,239 [INFO] Coles page 152/154: 48 products (total: 7295)
+2026-03-16 06:08:55,624 [INFO] Coles page 153/154: 48 products (total: 7343)
+2026-03-16 06:08:56,516 [INFO] Coles page 154/154: 5 products (total: 7348)
+2026-03-16 06:08:57,488 [INFO] Coles total: 7348 unique specials, 0 blocked, 0 errors
+2026-03-16 06:08:57,490 [INFO] Coles: 7348 specials, 0 blocked, 0 errors
+2026-03-16 06:08:59,321 [INFO] HTTP Request: DELETE https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?scraped_at=lt.2026-03-15T20%3A00%3A04.414202%2B00%3A00 "HTTP/2 200 OK"
+2026-03-16 06:09:00,134 [INFO] Cleared old specials
+2026-03-16 06:09:00,441 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:00,466 [INFO] Saved chunk 1: 500 records
+2026-03-16 06:09:00,657 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:00,692 [INFO] Saved chunk 2: 500 records
+2026-03-16 06:09:00,853 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:00,889 [INFO] Saved chunk 3: 500 records
+2026-03-16 06:09:01,042 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:01,067 [INFO] Saved chunk 4: 500 records
+2026-03-16 06:09:01,235 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:01,259 [INFO] Saved chunk 5: 500 records
+2026-03-16 06:09:01,434 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:01,459 [INFO] Saved chunk 6: 500 records
+2026-03-16 06:09:01,655 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:01,680 [INFO] Saved chunk 7: 500 records
+2026-03-16 06:09:01,843 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:01,881 [INFO] Saved chunk 8: 500 records
+2026-03-16 06:09:02,063 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:02,087 [INFO] Saved chunk 9: 500 records
+2026-03-16 06:09:02,245 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:02,282 [INFO] Saved chunk 10: 500 records
+2026-03-16 06:09:02,403 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:02,427 [INFO] Saved chunk 11: 500 records
+2026-03-16 06:09:02,556 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:02,584 [INFO] Saved chunk 12: 500 records
+2026-03-16 06:09:02,727 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:02,752 [INFO] Saved chunk 13: 500 records
+2026-03-16 06:09:02,882 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:02,908 [INFO] Saved chunk 14: 500 records
+2026-03-16 06:09:03,052 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:03,076 [INFO] Saved chunk 15: 500 records
+2026-03-16 06:09:03,210 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:03,237 [INFO] Saved chunk 16: 500 records
+2026-03-16 06:09:03,363 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:03,388 [INFO] Saved chunk 17: 500 records
+2026-03-16 06:09:03,518 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:03,542 [INFO] Saved chunk 18: 500 records
+2026-03-16 06:09:03,687 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:03,714 [INFO] Saved chunk 19: 500 records
+2026-03-16 06:09:03,842 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:03,868 [INFO] Saved chunk 20: 500 records
+2026-03-16 06:09:03,999 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:04,036 [INFO] Saved chunk 21: 500 records
+2026-03-16 06:09:04,160 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:04,195 [INFO] Saved chunk 22: 500 records
+2026-03-16 06:09:04,326 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:04,358 [INFO] Saved chunk 23: 500 records
+2026-03-16 06:09:04,486 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:04,512 [INFO] Saved chunk 24: 500 records
+2026-03-16 06:09:04,643 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:04,676 [INFO] Saved chunk 25: 500 records
+2026-03-16 06:09:04,798 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:04,822 [INFO] Saved chunk 26: 500 records
+2026-03-16 06:09:04,942 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:04,970 [INFO] Saved chunk 27: 500 records
+2026-03-16 06:09:05,059 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/specials?on_conflict=store%2Cstockcode&columns=%22thumbnail%22%2C%22brand%22%2C%22price%22%2C%22was_price%22%2C%22store%22%2C%22name%22%2C%22saving%22%2C%22is_half_price%22%2C%22stockcode%22%2C%22offer_description%22%2C%22unit_price%22%2C%22category%22%2C%22saving_pct%22%2C%22special_type%22%2C%22scraped_at%22 "HTTP/2 201 Created"
+2026-03-16 06:09:05,075 [INFO] Saved chunk 28: 239 records
+2026-03-16 06:09:05,075 [INFO] Total saved to Supabase: 13739
+2026-03-16 06:09:05,151 [INFO] HTTP Request: POST https://bqwexelzzxgolvzmmovo.supabase.co/rest/v1/scrape_log "HTTP/2 201 Created"
+2026-03-16 06:09:05,152 [INFO] Scrape run logged to Supabase
+2026-03-16 06:09:05,152 [WARNING] No mail credentials — skipping alert email
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Python313\Lib\logging\__init__.py", line 1154, in emit
+    stream.write(msg + self.terminator)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 31: character maps to <undefined>
+Call stack:
+  File "C:\Users\snatt\Documents\MY_APP_PROJECTS_NEW\smart-basket\scraper\main.py", line 187, in <module>
+    main()
+  File "C:\Users\snatt\Documents\MY_APP_PROJECTS_NEW\smart-basket\scraper\main.py", line 183, in main
+    logger.info(f"\u2705 Done! Woolworths: {w_total}  Coles: {c_total}  Saved: {total_saved}")
+Message: '\u2705 Done! Woolworths: 6391  Coles: 7348  Saved: 13739'
+Arguments: ()
