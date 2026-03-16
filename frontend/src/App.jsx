@@ -509,6 +509,12 @@ function CompareView({ items, goBack }) {
                         <div style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.85)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.name}</div>
                         <div style={{ display: "flex", gap: 4, marginTop: 5, flexWrap: "wrap" }}>
                           <span style={{ fontSize: 10, fontWeight: 700, background: cfg.bg, color: cfg.color, borderRadius: 5, padding: "2px 7px", border: `1px solid ${cfg.color}33` }}>{cfg.label} ${storePrice?.toFixed(2)} ✓</span>
+                          {item.special?.was_price && (
+                            <span style={{ fontSize: 10, color: "rgba(255,255,255,0.28)", textDecoration: "line-through" }}>${item.special.was_price.toFixed(2)}</span>
+                          )}
+                          {item.special?.saving_pct && (
+                            <span style={{ fontSize: 10, color: "#4ade80", fontWeight: 700 }}>-{Math.round(item.special.saving_pct)}%</span>
+                          )}
                           {others.map(([s, price]) => (
                             <span key={s} style={{ fontSize: 10, fontWeight: 500, background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.28)", borderRadius: 5, padding: "2px 7px" }}>{STORE_CONFIG[s].label} ${price.toFixed(2)}</span>
                           ))}
